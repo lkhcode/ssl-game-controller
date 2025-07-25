@@ -49,7 +49,7 @@ const disable = computed(() => {
 
 <template>
   <div class="row justify-evenly q-mt-md">
-    <ControlButton label="Reset sliders to current ball position"
+    <ControlButton label="重置到当前球的位置"
                    :disable="false"
                    :action="resetBallPos"/>
   </div>
@@ -58,14 +58,14 @@ const disable = computed(() => {
     <q-input
       input-class="text-center"
       dense
-      label="X-Coordinate"
+      label="X坐标"
       type="number"
       v-model="newBallPos.x"
     />
     <q-input
       input-class="text-center"
       dense
-      label="Y-Coordinate"
+      label="Y坐标"
       type="number"
       v-model="newBallPos.y"
     />
@@ -85,7 +85,7 @@ const disable = computed(() => {
             :step="0.1"
             selection-color="transparent"
             label
-            :label-value="newBallPos.x + ' m'"
+            :label-value="newBallPos.x + ' 米'"
             label-always
           />
           <q-slider class="slider-current"
@@ -125,7 +125,7 @@ const disable = computed(() => {
             :step="0.1"
             selection-color="transparent"
             label
-            :label-value="newBallPos.y + ' m'"
+            :label-value="newBallPos.y + ' 米'"
             label-always
             switch-label-side
           />
@@ -136,7 +136,7 @@ const disable = computed(() => {
   </div>
 
   <div class="row justify-evenly q-mt-md">
-    <ControlButton class="col-grow" label="Place ball"
+    <ControlButton class="col-grow" label="放球"
                    v-for="team in (['YELLOW', 'BLUE']) as TeamJson[]"
                    :key="team"
                    :disable="disable"

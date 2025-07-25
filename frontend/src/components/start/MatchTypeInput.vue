@@ -23,7 +23,7 @@ const onChange = (newValue: MatchTypeJson) => {
 
 <template>
   <SelectInput
-    label="Match type"
+    label="比赛类型"
     style="min-width: 130px"
     :modelValue="model"
     :options="options"

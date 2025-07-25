@@ -19,29 +19,29 @@ export interface ChangeDetails {
 export function changeDetails(change: ChangeJson): ChangeDetails {
   if (change.newCommandChange) {
     return {
-      typeName: "Command",
+      typeName: "指令",
       title: commandName(change.newCommandChange.command?.type!),
       forTeam: change.newCommandChange.command?.forTeam,
       icon: "terminal",
     }
   } else if (change.changeStageChange) {
     return {
-      typeName: "Stage",
+      typeName: "阶段",
       title: stageName(change.changeStageChange.newStage!),
       icon: "gavel",
     }
   } else if (change.setBallPlacementPosChange) {
     return {
-      typeName: "Ball Placement Pos",
-      title: "Position: " + JSON.stringify(change.setBallPlacementPosChange.pos!),
+      typeName: "放球位置",
+      title: "坐标: " + JSON.stringify(change.setBallPlacementPosChange.pos!),
       icon: "sports_soccer",
     }
   } else if (change.addYellowCardChange) {
     const details = change.addYellowCardChange;
     const cause = details.causedByGameEvent
     return {
-      typeName: "Yellow Card",
-      title: cause ? "Yellow card for " + gameEventName(cause.type) : "Yellow card",
+      typeName: "黄牌",
+      title: cause ? "因" + gameEventName(cause.type) + "获得黄牌" : "黄牌",
       forTeam: details.forTeam,
       icon: "sim_card",
     }
@@ -49,8 +49,8 @@ export function changeDetails(change: ChangeJson): ChangeDetails {
     const details = change.addRedCardChange;
     const gameEvent = details.causedByGameEvent
     return {
-      typeName: "Red Card",
-      title: gameEvent ? "Red card for " + gameEventName(gameEvent.type) : "Red card",
+      typeName: "红牌",
+      title: gameEvent ? "因" + gameEventName(gameEvent.type) + "获得红牌" : "红牌",
       forTeam: details.forTeam,
       gameEvent,
       icon: "sim_card",
@@ -58,8 +58,8 @@ export function changeDetails(change: ChangeJson): ChangeDetails {
   } else if (change.yellowCardOverChange) {
     const details = change.yellowCardOverChange
     return {
-      typeName: "Yellow Card Over",
-      title: "Yellow Card Over",
+      typeName: "黄牌到期",
+      title: "黄牌到期",
       forTeam: details.forTeam,
       icon: "alarm",
     }
@@ -67,7 +67,7 @@ export function changeDetails(change: ChangeJson): ChangeDetails {
     const details = change.addGameEventChange;
     const gameEvent = details.gameEvent!;
     return {
-      typeName: "Game Event",
+      typeName: "比赛事件",
       title: gameEventName(gameEvent.type),
       forTeam: gameEventForTeam(gameEvent),
       icon: "warning",
@@ -77,8 +77,8 @@ export function changeDetails(change: ChangeJson): ChangeDetails {
     const details = change.addPassiveGameEventChange;
     const gameEvent = details.gameEvent!;
     return {
-      typeName: "Game Event (passive)",
-      title: "Passive: " + gameEventName(gameEvent.type),
+      typeName: "比赛事件(被动接受)",
+      title: "被动接受事件: " + gameEventName(gameEvent.type),
       forTeam: gameEventForTeam(gameEvent),
       icon: "recycling",
       gameEvent,
@@ -87,42 +87,42 @@ export function changeDetails(change: ChangeJson): ChangeDetails {
     const details = change.addProposalChange;
     const gameEvent = details.proposal!.gameEvent!;
     return {
-      typeName: "Game Event Proposal",
-      title: "Propose: " + gameEventName(gameEvent.type),
+      typeName: "比赛事件提议",
+      title: "接收到提议: " + gameEventName(gameEvent.type),
       forTeam: gameEventForTeam(gameEvent),
       icon: "front_hand",
       gameEvent,
     }
   } else if (change.updateConfigChange) {
     return {
-      typeName: "Config",
+      typeName: "配置",
       title: configChangeTitle(change.updateConfigChange),
       icon: "edit",
     }
   } else if (change.updateTeamStateChange) {
     const details = change.updateTeamStateChange
     return {
-      typeName: "Team State",
+      typeName: "队伍状态",
       title: teamStateChangeTitle(details),
       forTeam: details.forTeam,
       icon: "edit",
     }
   } else if (change.switchColorsChange) {
     return {
-      typeName: "Switch Colors",
-      title: "Switch Colors",
+      typeName: "交换颜色",
+      title: "交换颜色",
       icon: "edit",
     }
   } else if (change.revertChange) {
     return {
       typeName: "Revert",
-      title: `Revert change ${change.revertChange.changeId}`,
+      title: `撤销变更 ${change.revertChange.changeId}`,
       icon: "undo",
     }
   } else if (change.newGameStateChange) {
     const details = change.newGameStateChange;
     return {
-      typeName: "Game State",
+      typeName: "比赛状态",
       title: gameStateName(details.gameState?.type!),
       forTeam: details.gameState?.forTeam,
       icon: "gavel",
@@ -130,20 +130,20 @@ export function changeDetails(change: ChangeJson): ChangeDetails {
   } else if (change.acceptProposalGroupChange) {
     const details = change.acceptProposalGroupChange;
     return {
-      typeName: "Proposals accepted",
-      title: `Proposal accepted by ${details.acceptedBy}: '${details.groupId}'`,
+      typeName: "提议已接受",
+      title: `提议被${details.acceptedBy}接受: '${details.groupId}'`,
       icon: "check_circle_outline",
     }
   } else if (change.setStatusMessageChange) {
     const details = change.setStatusMessageChange;
     let title
     if (details.statusMessage) {
-      title = `Status Message: ${details.statusMessage}`
+      title = `状态消息: ${details.statusMessage}`
     } else {
-      title = 'Status Message cleared'
+      title = '状态消息已清除'
     }
     return {
-      typeName: "Status Message",
+      typeName: "状态消息",
       title: title,
       icon: "message",
     }
@@ -158,76 +158,76 @@ export function changeDetails(change: ChangeJson): ChangeDetails {
 
 function configChangeTitle(config: Change_UpdateConfigJson): string {
   if (config.firstKickoffTeam !== undefined && config.firstKickoffTeam !== 'UNKNOWN') {
-    return `First kick-off team: ${config.firstKickoffTeam}`
+    return `${config.firstKickoffTeam} 获得首次开球权`
   } else if (config.division !== undefined && config.division !== 'DIV_UNKNOWN') {
-    return `Division: ${config.division}`
+    return `组别: ${config.division}`
   } else if (config.maxRobotsPerTeam !== undefined) {
-    return `Max Robots: ${config.maxRobotsPerTeam}`
+    return `最大机器人数量: ${config.maxRobotsPerTeam}`
   } else if (config.matchType !== undefined) {
-    return `Match type: ${config.matchType}`
+    return `比赛类型: ${config.matchType}`
   }
-  return "Unknown config change"
+  return "无法识别的配置变更" + JSON.stringify(config)
 }
 
 function teamStateChangeTitle(change: Change_UpdateTeamStateJson): string {
   if (change.teamName !== undefined) {
-    return `Team name: ${change.teamName}`
+    return `队伍名称: ${change.teamName}`
   } else if (change.goals !== undefined) {
-    return `Goals: ${change.goals}`
+    return `进球数: ${change.goals}`
   } else if (change.goalkeeper !== undefined) {
-    return `Keeper: ${change.goalkeeper}`
+    return `守门员: ${change.goalkeeper}`
   } else if (change.timeoutsLeft !== undefined) {
-    return `Timeouts left: ${change.timeoutsLeft}`
+    return `Timeouts 剩余次数: ${change.timeoutsLeft}`
   } else if (change.timeoutTimeLeft !== undefined) {
-    return `Timeout time left: ${change.timeoutTimeLeft}`
+    return `Timeout 剩余时间: ${change.timeoutTimeLeft}`
   } else if (change.onPositiveHalf !== undefined) {
     if (change.onPositiveHalf) {
       return "Goal is on positive half"
     }
     return "Goal is on negative half"
   } else if (change.ballPlacementFailures !== undefined) {
-    return `Ball placement failures: ${change.ballPlacementFailures}`
+    return `放球失败次数: ${change.ballPlacementFailures}`
   } else if (change.canPlaceBall !== undefined) {
-    return `Can place ball: ${change.canPlaceBall}`
+    return `可以放球: ${change.canPlaceBall}`
   } else if (change.challengeFlagsLeft !== undefined) {
-    return `Challenge flags left: ${change.challengeFlagsLeft}`
+    return `剩余质疑次数: ${change.challengeFlagsLeft}`
   } else if (change.requestsBotSubstitution !== undefined) {
     if (change.requestsBotSubstitution) {
-      return "Request bot substitution"
+      return "请求更换机器人"
     }
-    return "Revoke bot substitution request"
+    return "取消更换机器人请求"
   } else if (change.requestsTimeout !== undefined) {
     if (change.requestsTimeout) {
-      return "Request timeout"
+      return "timeout 请求"
     }
-    return "Revoke timeout request"
+    return "取消 timeout 请求"
   } else if (change.requestsChallenge !== undefined) {
     if (change.requestsChallenge) {
-      return "Request challenge"
+      return "请求质疑"
     }
-    return "Revoke challenge request"
+    return "取消质疑请求"
   } else if (change.requestsEmergencyStop !== undefined) {
     if (change.requestsEmergencyStop) {
-      return "Request emergency stop"
+      return "请求紧急停止"
     }
-    return "Revoke emergency stop request"
+    return "取消紧急停止请求"
   } else if (change.yellowCard !== undefined) {
     const timeRemaining = formatDurationJson(change.yellowCard.timeRemaining!)
-    return `Change yellow card ${change.yellowCard.id} (${timeRemaining} s left)`
+    return `修改黄牌 ${change.yellowCard.id} (剩余 ${timeRemaining} 秒)`
   } else if (change.redCard !== undefined) {
-    return `Change red card ${change.redCard.id}`
+    return `修改红牌 ${change.redCard.id}`
   } else if (change.foul !== undefined) {
-    return `Change foul ${change.foul.id}`
+    return `修改犯规 ${change.foul.id}`
   } else if (change.removeYellowCard !== undefined) {
-    return `Remove yellow card ${change.removeYellowCard}`
+    return `移除黄牌 ${change.removeYellowCard}`
   } else if (change.removeRedCard !== undefined) {
-    return `Remove red card ${change.removeRedCard}`
+    return `移除红牌 ${change.removeRedCard}`
   } else if (change.removeFoul !== undefined) {
-    return `Remove foul ${change.removeFoul}`
+    return `移除犯规 ${change.removeFoul}`
   } else if (change.botSubstitutionsLeft !== undefined) {
-    return `Bot substitutions left: ${change.botSubstitutionsLeft}`
+    return `剩余机器人更换次数: ${change.botSubstitutionsLeft}`
   } else if (change.hullColor !== undefined) {
-    return `Change hull color: ${change.hullColor}`
+    return `更改外壳颜色: ${change.hullColor}`
   }
-  return "Unknown team state change: " + JSON.stringify(change)
+  return "未知的队伍状态变更: " + JSON.stringify(change)
 }

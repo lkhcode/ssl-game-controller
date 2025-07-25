@@ -30,7 +30,7 @@ const updateValue = (value: number | undefined) => {
 <template>
   <NumberInput
     :modelValue="model"
-    label="Challenge flags available"
+    label="剩余质疑次数"
     @update:model-value="updateValue"
   />
 </template>

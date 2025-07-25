@@ -45,7 +45,7 @@ const updateY = (y: string | number | null) => {
         input-class="text-center"
         dense
         type="number"
-        :label="(label || 'location') + ' x (m)'"
+        :label="(label || '坐标') + ' x (m)'"
         :model-value="modelValue?.x"
         @update:model-value="updateX"
       >
@@ -59,7 +59,7 @@ const updateY = (y: string | number | null) => {
         input-class="text-center"
         dense
         type="number"
-        :label="(label || 'location') + ' y (m)'"
+        :label="(label || '坐标') + ' y (m)'"
         :model-value="modelValue?.y"
         @update:model-value="updateY"
       >

@@ -71,7 +71,7 @@ const penaltyAttempts = (team: TeamJson) => {
             {{ activeCards(team) }} &rArr; {{ maxBots(team) }}
           </q-item-label>
           <q-item-label caption>
-            Active cards &rArr; max bots
+            生效牌数 &rArr; 最大机器人数
           </q-item-label>
         </q-item-section>
       </q-item>
@@ -82,7 +82,7 @@ const penaltyAttempts = (team: TeamJson) => {
             {{ formatDuration(nextYellowCardDue(team) * 1000) }}
           </q-item-label>
           <q-item-label caption>
-            Next yellow card due
+            下张黄牌到期时间
           </q-item-label>
         </q-item-section>
       </q-item>
@@ -93,7 +93,7 @@ const penaltyAttempts = (team: TeamJson) => {
             {{ penaltyAttempts(team) }}
           </q-item-label>
           <q-item-label caption>
-            Number of penalty attempts
+            尝试点球次数
           </q-item-label>
         </q-item-section>
       </q-item>

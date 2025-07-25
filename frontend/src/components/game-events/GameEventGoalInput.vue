@@ -42,20 +42,20 @@ const createGameEvent = () => {
 
 <template>
   <q-list bordered>
-    <q-item-label header>Goal</q-item-label>
+    <q-item-label header>进球</q-item-label>
 
-    <TeamItem v-model="goal.byTeam" label="by team"/>
-    <TeamItem v-model="goal.kickingTeam" label="kicking team"/>
-    <NumberItem v-model="goal.kickingBot" label="kicking bot"/>
+    <TeamItem v-model="goal.byTeam" label="队伍"/>
+    <TeamItem v-model="goal.kickingTeam" label="进球方"/>
+    <NumberItem v-model="goal.kickingBot" label="机器人"/>
     <LocationItem v-model="goal.location"/>
-    <LocationItem v-model="goal.kickLocation" label="kick location"/>
-    <NumberItem v-model="goal.maxBallHeight" label="max ball height (m)"/>
-    <NumberItem v-model="goal.numRobotsByTeam" label="num robots by team"/>
-    <NumberItem v-model="lastTouchByTeam" label="last touch by team (μs)"/>
-    <TextItem v-model="goal.message" label="message"/>
+    <LocationItem v-model="goal.kickLocation" label="进球位置"/>
+    <NumberItem v-model="goal.maxBallHeight" label="射门过程中球的最高高度 (米)"/>
+    <NumberItem v-model="goal.numRobotsByTeam" label="队伍中的机器人数量"/>
+    <NumberItem v-model="lastTouchByTeam" label="最后触球时间 (μs)"/>
+    <TextItem v-model="goal.message" label="备注"/>
 
-    <ToggleItem label="possible goal" v-model="possibleGoal"/>
+    <ToggleItem label="待确认的进球" v-model="possibleGoal"/>
 
-    <ButtonItem label="Create" @click="createGameEvent"/>
+    <ButtonItem label="创建" @click="createGameEvent"/>
   </q-list>
 </template>

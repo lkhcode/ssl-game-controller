@@ -6,33 +6,33 @@ import {type ContinueAction_TypeJson} from "@/proto/engine/ssl_gc_engine_pb";
 export function stageName(stage: Referee_StageJson): string {
   switch (stage) {
     case 'NORMAL_FIRST_HALF_PRE':
-      return 'Pre-First Half'
+      return '上半场准备'
     case 'NORMAL_FIRST_HALF':
-      return 'First Half'
+      return '上半场'
     case 'NORMAL_HALF_TIME':
-      return 'Half Time'
+      return '中场休息'
     case 'NORMAL_SECOND_HALF_PRE':
-      return 'Pre-Second Half'
+      return '下半场准备'
     case 'NORMAL_SECOND_HALF':
-      return 'Second Half'
+      return '下半场'
     case 'EXTRA_TIME_BREAK':
-      return 'Overtime Break'
+      return '加时赛前休息'
     case 'EXTRA_FIRST_HALF_PRE':
-      return 'Pre-Overtime First Half'
+      return '加时赛上半场准备'
     case 'EXTRA_FIRST_HALF':
-      return 'Overtime First Half'
+      return '加时赛上半场'
     case 'EXTRA_HALF_TIME':
-      return 'Overtime Half Time'
+      return '加时赛中场休息'
     case 'EXTRA_SECOND_HALF_PRE':
-      return 'Pre-Overtime Second Half'
+      return '加时赛下半场准备'
     case 'EXTRA_SECOND_HALF':
-      return 'Overtime Second Half'
+      return '加时赛下半场'
     case 'PENALTY_SHOOTOUT_BREAK':
-      return 'Shootout Break'
+      return '点球大战前休息'
     case 'PENALTY_SHOOTOUT':
-      return 'Shootout'
+      return '点球大战'
     case 'POST_GAME':
-      return 'End of Game'
+      return '比赛结束'
   }
 }
 
@@ -85,43 +85,43 @@ export function gameStateName(type: GameState_TypeJson): string {
 }
 
 export const gameEventNames = new Map<GameEvent_TypeJson, string>([
-  ['BALL_LEFT_FIELD_TOUCH_LINE', "Ball left field via touch line"],
-  ['BALL_LEFT_FIELD_GOAL_LINE', "Ball left field via goal line"],
-  ['AIMLESS_KICK', "Ball kicked aimlessly"],
-  ['ATTACKER_TOO_CLOSE_TO_DEFENSE_AREA', "Attacker too close to defense area"],
-  ['DEFENDER_IN_DEFENSE_AREA', "Defender inside own defense area"],
-  ['BOUNDARY_CROSSING', "Ball chipped over field boundaries"],
-  ['KEEPER_HELD_BALL', "Ball held deliberately by keeper"],
-  ['BOT_DRIBBLED_BALL_TOO_FAR', "Ball dribbled too far"],
-  ['BOT_PUSHED_BOT', "Bot pushed opponent bot"],
-  ['BOT_HELD_BALL_DELIBERATELY', "Ball held deliberately by bot"],
-  ['BOT_TIPPED_OVER', "Bot tipped over"],
-  ['BOT_DROPPED_PARTS', "Bot dropped parts"],
-  ['ATTACKER_TOUCHED_BALL_IN_DEFENSE_AREA', "Attacker touched ball inside opponent defense area"],
-  ['BOT_KICKED_BALL_TOO_FAST', "Ball kicked too fast"],
-  ['BOT_CRASH_UNIQUE', "Bot crashed into opponent bot"],
-  ['BOT_CRASH_DRAWN', "Bots crashed into each other"],
-  ['DEFENDER_TOO_CLOSE_TO_KICK_POINT', "Defender too close to kick point"],
-  ['BOT_TOO_FAST_IN_STOP', "Bot too fast in stop"],
-  ['BOT_INTERFERED_PLACEMENT', "Bot interfered ball placement"],
-  ['POSSIBLE_GOAL', "Goal might been scored"],
-  ['GOAL', "Goal scored"],
-  ['INVALID_GOAL', "Goal invalid"],
-  ['ATTACKER_DOUBLE_TOUCHED_BALL', "Ball touched twice by attacker"],
-  ['PLACEMENT_SUCCEEDED', "Ball placement succeeded"],
-  ['PENALTY_KICK_FAILED', "Penalty kick failed"],
-  ['NO_PROGRESS_IN_GAME', "No progress in game"],
-  ['PLACEMENT_FAILED', "Ball placement failed"],
-  ['MULTIPLE_CARDS', "Multiple cards"],
-  ['MULTIPLE_FOULS', "Multiple fouls"],
-  ['BOT_SUBSTITUTION', "Bot substitution"],
-  ['EXCESSIVE_BOT_SUBSTITUTION', "Excessive bot substitution"],
-  ['TOO_MANY_ROBOTS', "Too many bots on field"],
-  ['CHALLENGE_FLAG', "Challenge flag"],
-  ['CHALLENGE_FLAG_HANDLED', "Challenge flag handled"],
-  ['EMERGENCY_STOP', "Emergency stop"],
-  ['UNSPORTING_BEHAVIOR_MINOR', "Unsporting behavior (minor)"],
-  ['UNSPORTING_BEHAVIOR_MAJOR', "Unsporting behavior (major)"],
+  ['BALL_LEFT_FIELD_TOUCH_LINE', "球从边线出界"],
+  ['BALL_LEFT_FIELD_GOAL_LINE', "球从球门线出界"],
+  ['AIMLESS_KICK', "无意义射门"],
+  ['ATTACKER_TOO_CLOSE_TO_DEFENSE_AREA', "机器人到对方禁区距离过短"],
+  ['DEFENDER_IN_DEFENSE_AREA', "非守门员禁区内触球"],
+  ['BOUNDARY_CROSSING', "界外球"],
+  ['KEEPER_HELD_BALL', "守门员违规持球"],
+  ['BOT_DRIBBLED_BALL_TOO_FAR', "带球过度"],
+  ['BOT_PUSHED_BOT', "机器人推挤"],
+  ['BOT_HELD_BALL_DELIBERATELY', "机器人故意持球"],
+  ['BOT_TIPPED_OVER', "机器人翻倒"],
+  ['BOT_DROPPED_PARTS', "机器人掉落零件"],
+  ['ATTACKER_TOUCHED_BALL_IN_DEFENSE_AREA', "机器人在对方禁区内触球"],
+  ['BOT_KICKED_BALL_TOO_FAST', "球速过快"],
+  ['BOT_CRASH_UNIQUE', "机器人碰撞"],
+  ['BOT_CRASH_DRAWN', "机器人相互碰撞"],
+  ['DEFENDER_TOO_CLOSE_TO_KICK_POINT', "机器人离球过近"],
+  ['BOT_TOO_FAST_IN_STOP', "机器人在停止状态超速"],
+  ['BOT_INTERFERED_PLACEMENT', "机器人干扰放球"],
+  ['POSSIBLE_GOAL', "待确认的进球"],
+  ['GOAL', "进球有效"],
+  ['INVALID_GOAL', "进球无效"],
+  ['ATTACKER_DOUBLE_TOUCHED_BALL', "二次触球"],
+  ['PLACEMENT_SUCCEEDED', "放球成功"],
+  ['PENALTY_KICK_FAILED', "点球失败"],
+  ['NO_PROGRESS_IN_GAME', "僵持状态"],
+  ['PLACEMENT_FAILED', "放球失败"],
+  ['MULTIPLE_CARDS', "多次受牌"],
+  ['MULTIPLE_FOULS', "多次犯规"],
+  ['BOT_SUBSTITUTION', "机器人更换"],
+  ['EXCESSIVE_BOT_SUBSTITUTION', "多次更换机器人"],
+  ['TOO_MANY_ROBOTS', "场上存在过多机器人"],
+  ['CHALLENGE_FLAG', "提出异议"],
+  ['CHALLENGE_FLAG_HANDLED', "异议已处理"],
+  ['EMERGENCY_STOP', "紧急停止"],
+  ['UNSPORTING_BEHAVIOR_MINOR', "违反体育精神的行为(轻微)"],
+  ['UNSPORTING_BEHAVIOR_MAJOR', "违反体育精神的行为(严重)"],
 ])
 
 export function gameEventName(type?: GameEvent_TypeJson): string {
@@ -133,11 +133,11 @@ export function matchTypeName(matchType: MatchTypeJson): string {
     case 'UNKNOWN_MATCH':
       return "Unknown"
     case 'GROUP_PHASE':
-      return "Group Phase"
+      return "小组赛"
     case 'ELIMINATION_PHASE':
-      return "Elimination Phase"
+      return "淘汰赛"
     case 'FRIENDLY':
-      return "Friendly"
+      return "友谊赛"
   }
 }
 
@@ -146,43 +146,43 @@ export function continueActionLabel(type: ContinueAction_TypeJson, nextCommand?:
     case 'HALT':
       return 'Halt'
     case 'RESUME_FROM_HALT':
-      return 'Resume (Halt -> Stop)'
+      return '恢复 (Halt -> Stop)'
     case 'STOP_GAME':
       return 'Stop'
     case 'FORCE_START':
-      return 'Force Start (no next command)'
+      return 'Force Start (无下一指令)'
     case 'FREE_KICK':
-      return 'Free Kick (no next command)'
+      return 'Free Kick (无下一指令)'
     case 'NEXT_COMMAND':
       return commandName(nextCommand?.type!)
     case 'BALL_PLACEMENT_START':
-      return 'Start Ball Placement'
+      return '开始放球'
     case 'BALL_PLACEMENT_CANCEL':
-      return 'Cancel Ball Placement'
+      return '取消放球'
     case 'BALL_PLACEMENT_COMPLETE':
-      return 'Complete Ball Placement'
+      return '完成放球'
     case 'BALL_PLACEMENT_FAIL':
-      return 'Fail Ball Placement'
+      return '放球失败'
     case 'TIMEOUT_START':
-      return 'Start Timeout'
+      return 'Timeout开始'
     case 'TIMEOUT_STOP':
-      return 'Stop Timeout'
+      return 'Timeout结束'
     case 'BOT_SUBSTITUTION':
-      return 'Start Bot Substitution'
+      return '开始机器人更换'
     case 'NEXT_STAGE':
-      return 'Next Stage'
+      return '下一阶段'
     case 'END_GAME':
-      return 'End match'
+      return '比赛结束'
     case 'ACCEPT_GOAL':
-      return 'Accept Goal'
+      return '进球有效'
     case 'REJECT_GOAL':
-      return 'Reject Goal'
+      return '进球无效'
     case 'NORMAL_START':
       return 'Normal Start'
     case 'CHALLENGE_ACCEPT':
-      return 'Accept Challenge'
+      return '接受异议'
     case 'CHALLENGE_REJECT':
-      return 'Reject Challenge'
+      return '反对异议'
     case 'TYPE_UNKNOWN':
       return 'Unknown'
   }

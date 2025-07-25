@@ -31,6 +31,6 @@ const updateValue = (value: number | undefined) => {
   <NumberInput
     :modelValue="currentKeeperId"
     @update:model-value="updateValue"
-    label="Keeper id"
+    label="守门员ID"
   />
 </template>

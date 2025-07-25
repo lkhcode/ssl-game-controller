@@ -48,13 +48,13 @@ const createGameEvent = () => {
 <template>
   <q-list bordered>
     <q-item-label header>
-      Unsporting Behavior
+      违反体育精神的行为
     </q-item-label>
 
     <div class="q-mx-md q-mb-md">
-      Minor unsporting behavior results in a yellow card, major unsporting behavior results in a red card.
-      For details see the <a href="https://robocup-ssl.github.io/ssl-rules/sslrules.html#_unsporting_behavior"
-                             target="_blank">SSL Rules</a>.
+      轻微的违反体育精神行为将给予黄牌，严重的违反体育精神行为将给予红牌。
+      详情请参阅 <a href="https://robocup-ssl.github.io/ssl-rules/sslrules.html#_unsporting_behavior"
+                  target="_blank">SSL 规则</a>。
     </div>
 
     <q-item>
@@ -67,9 +67,9 @@ const createGameEvent = () => {
       </q-item-section>
     </q-item>
 
-    <TeamItem v-model="byTeam" label="by team"/>
-    <TextItem v-model="reason" label="reason"/>
+    <TeamItem v-model="byTeam" label="队伍"/>
+    <TextItem v-model="reason" label="原因"/>
 
-    <ButtonItem label="Create" @click="createGameEvent"/>
+    <ButtonItem label="创建" @click="createGameEvent"/>
   </q-list>
 </template>

@@ -92,7 +92,7 @@ const redCards = (team: TeamJson) => {
         <q-item-section class="text-center">
           <q-item-label>{{ fouls(team) }}</q-item-label>
           <q-item-label caption>
-            Fouls
+            犯规
           </q-item-label>
         </q-item-section>
       </q-item>
@@ -101,7 +101,7 @@ const redCards = (team: TeamJson) => {
         <q-item-section class="text-center">
           <q-item-label>{{ yellowCards(team) }}</q-item-label>
           <q-item-label caption>
-            Yellow cards
+            黄牌
           </q-item-label>
         </q-item-section>
       </q-item>
@@ -110,7 +110,7 @@ const redCards = (team: TeamJson) => {
         <q-item-section class="text-center">
           <q-item-label>{{ redCards(team) }}</q-item-label>
           <q-item-label caption>
-            Red cards
+            红牌
           </q-item-label>
         </q-item-section>
       </q-item>
@@ -124,7 +124,7 @@ const redCards = (team: TeamJson) => {
             />
           </q-item-label>
           <q-item-label caption>
-            Remote connected
+            控制器连接状态
           </q-item-label>
         </q-item-section>
       </q-item>
@@ -138,7 +138,7 @@ const redCards = (team: TeamJson) => {
             />
           </q-item-label>
           <q-item-label caption>
-            Team connected
+            队伍连接状态
           </q-item-label>
         </q-item-section>
       </q-item>
@@ -147,7 +147,7 @@ const redCards = (team: TeamJson) => {
         <q-item-section class="text-center">
           <q-item-label>{{ advantageChoice(team) }}</q-item-label>
           <q-item-label caption>
-            Advantage choice
+            比赛优势选择
           </q-item-label>
         </q-item-section>
       </q-item>

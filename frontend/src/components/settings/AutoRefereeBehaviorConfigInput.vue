@@ -7,9 +7,9 @@ defineProps<{
 const emit = defineEmits(['update:model-value'])
 
 const options = [
-  {value: 'BEHAVIOR_ACCEPT', label: "Accept"},
-  {value: 'BEHAVIOR_LOG', label: "Log"},
-  {value: 'BEHAVIOR_IGNORE', label: "Ignore"},
+  {value: 'BEHAVIOR_ACCEPT', label: "同意"},
+  {value: 'BEHAVIOR_LOG', label: "记录"},
+  {value: 'BEHAVIOR_IGNORE', label: "忽略"},
 ]
 
 const updateValue = (value: any) => {

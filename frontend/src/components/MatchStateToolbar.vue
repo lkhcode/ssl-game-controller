@@ -50,10 +50,10 @@ const statusMessage = computed(() => {
   <q-toolbar inset>
     <div class="row justify-evenly full-width">
       <div class="col-grow">
-        State: <strong>{{ gameState?.type }}</strong>
+        状态: <strong>{{ gameState?.type }}</strong>
         <TeamBadge :team="gameState?.forTeam"/>
         <template v-if="currentActionTime">
-          ({{ currentActionTime }} left)
+          (剩余 {{ currentActionTime }})
         </template>
         <template v-if="statusMessage">
           ({{ statusMessage }})
@@ -61,16 +61,16 @@ const statusMessage = computed(() => {
       </div>
 
       <div class="col-grow">
-        Stage: <strong>{{ stage }}</strong> ({{ stageTimeLeft }} left)
+        阶段: <strong>{{ stage }}</strong> (剩余 {{ stageTimeLeft }})
       </div>
       <div class="col-grow">
-        Score:
+        比分:
         <TeamBadge :team="'YELLOW'"/>
         {{ goals('YELLOW') }} : {{ goals('BLUE') }}
         <TeamBadge :team="'BLUE'"/>
       </div>
       <div class="col-grow">
-        Match duration: <strong>{{ matchDuration }}</strong>
+        比赛时长: <strong>{{ matchDuration }}</strong>
       </div>
     </div>
   </q-toolbar>

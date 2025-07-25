@@ -30,7 +30,7 @@ const updateValue = (value: number | undefined) => {
 <template>
   <NumberInput
       :modelValue="model"
-      label="Bot substitutions left"
+      label="剩余机器人更换次数"
       @update:model-value="updateValue"
   />
 </template>

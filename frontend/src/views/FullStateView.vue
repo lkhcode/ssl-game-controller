@@ -8,11 +8,11 @@ const gcStore = useGcStateStore()
 
 <template>
   <div class="q-ma-md">
-    <h5>Match state</h5>
+    <h5>比赛状态</h5>
     <pre>{{ JSON.stringify(store.matchState, null, 2) }}</pre>
-    <h5>GC state</h5>
+    <h5>GC状态</h5>
     <pre>{{ JSON.stringify(gcStore.gcState, null, 2) }}</pre>
-    <h5>Config</h5>
+    <h5>配置</h5>
     <pre>{{ JSON.stringify(gcStore.config, null, 2) }}</pre>
   </div>
 </template>

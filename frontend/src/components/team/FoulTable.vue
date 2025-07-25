@@ -40,8 +40,8 @@ const removeFoul = (foulId?: number) => {
   <q-markup-table dense v-if="hasData">
     <thead>
     <tr>
-      <th class="text-left" scope="col">Cause</th>
-      <th class="text-left" scope="col">Time</th>
+      <th class="text-left" scope="col">原因</th>
+      <th class="text-left" scope="col">获得时间</th>
       <th class="text-right" scope="col"></th>
     </tr>
     </thead>
@@ -56,6 +56,6 @@ const removeFoul = (foulId?: number) => {
     </tbody>
   </q-markup-table>
   <p v-else>
-    No fouls
+    无犯规
   </p>
 </template>

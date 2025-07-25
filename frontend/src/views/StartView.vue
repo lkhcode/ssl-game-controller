@@ -96,12 +96,13 @@ import HullColorInput from "@/components/team/HullColorInput.vue";
 
     <div class="q-ma-md">
       <p>
-        To set up a new match, go through this page from top to bottom.
-        The full procedure can be found in the
+        要设置新比赛，请从上到下浏览此页面。
+        完整流程可在
         <q-btn color="primary" target="_blank"
                href="https://robocup-ssl.github.io/ssl-rules/sslrules.html#_match_preparation">
-          rule book
+          规则手册
         </q-btn>
+        中找到。
       </p>
     </div>
   </div>

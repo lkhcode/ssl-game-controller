@@ -34,7 +34,7 @@ function setActive(activeTrackerSource: string) {
         <q-btn
           :disable="trackerSourceKey === trackerSourceActive"
           @click="setActive(trackerSourceKey)"
-          label="Set active"
+          label="激活"
           color="primary"
         />
       </q-item-section>

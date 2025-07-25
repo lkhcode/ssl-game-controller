@@ -51,7 +51,7 @@ func (e *Engine) nextActions() (actions []*ContinueAction, hints []*ContinueHint
 
 	if *e.currentState.Command.Type == state.Command_TIMEOUT {
 		timeLeft := e.currentState.TeamInfo(*e.currentState.Command.ForTeam).TimeoutTimeLeft.AsDuration().Truncate(time.Second)
-		message := fmt.Sprintf("Timeout time left: %s", timeLeft)
+		message := fmt.Sprintf("Timeout 时间剩余: %s", timeLeft)
 		hints = append(hints, &ContinueHint{Message: &message})
 
 		actions = append(actions, createContinueAction(

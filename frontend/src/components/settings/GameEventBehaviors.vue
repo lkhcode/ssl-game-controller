@@ -49,19 +49,19 @@ function changeAll(behavior: Config_BehaviorJson) {
 
 <template>
   <p>
-    Game events can be handled in the following ways:
+    比赛事件可以通过以下方式处理:
   </p>
   <ul>
-    <li>Accept: Apply event immediately.</li>
-    <li>Majority: Add event to proposals and accept it when majority reported same event.</li>
-    <li>Propose only: Add event to proposals, but only accept it manually through UI.</li>
-    <li>Log: Add passive event to the protocol, but do not process it at all.</li>
-    <li>Ignore: Drop event silently.</li>
+    <li>接受: 立即应用事件。</li>
+    <li>多数通过: 将事件添加到提议中，当多数来源报告相同事件时接受它。</li>
+    <li>仅提议: 将事件添加到提议中，但只能通过界面手动接受。</li>
+    <li>记录: 将被动事件添加到日志中，但完全不处理它。</li>
+    <li>忽略: 静默丢弃事件。</li>
   </ul>
   <q-list bordered class="rounded-borders">
     <q-item>
       <q-item-section>
-        <q-item-label><strong>All</strong></q-item-label>
+        <q-item-label><strong>全部</strong></q-item-label>
       </q-item-section>
 
       <q-item-section side>

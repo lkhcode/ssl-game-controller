@@ -70,7 +70,7 @@ onUnmounted(() => {
           switch-toggle-side
           v-model="uiStore.matchTeamSettingsExpanded"
           icon="perm_identity"
-          label="Team Settings"
+          label="队伍设置"
       >
         <q-card>
           <q-card-section>

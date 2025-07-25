@@ -16,9 +16,9 @@ const tab = ref("gameEventBehavior")
     indicator-color="primary"
     align="justify"
   >
-    <q-tab name="gameEventBehavior" label="Game Event Behavior"/>
-    <q-tab name="autoRefs" label="Auto Referees"/>
-    <q-tab name="trackerSources" label="Tracker Sources"/>
+    <q-tab name="gameEventBehavior" label="比赛事件行为"/>
+    <q-tab name="autoRefs" label="自动裁判盒"/>
+    <q-tab name="trackerSources" label="追踪源"/>
 
   </q-tabs>
   <q-separator/>

@@ -42,17 +42,17 @@ const createGameEvent = (gameEvent: GameEventJson) => {
     indicator-color="primary"
     align="justify"
   >
-    <q-tab name="ballLeftField" label="Ball left field"/>
-    <q-tab name="goal" label="Goal"/>
-    <q-tab name="foul" label="Foul"/>
-    <q-tab name="matchProceeding" label="Match Proceeding"/>
-    <q-tab name="unsportingBehavior" label="Unsporting Behavior"/>
+    <q-tab name="ballLeftField" label="界外球"/>
+    <q-tab name="goal" label="进球"/>
+    <q-tab name="foul" label="犯规"/>
+    <q-tab name="matchProceeding" label="僵持状态"/>
+    <q-tab name="unsportingBehavior" label="违反体育精神的行为"/>
   </q-tabs>
   <q-separator/>
 
   <div class="row q-gutter-md justify-evenly">
-    <ToggleInput v-model="propose" label="Propose only"/>
-    <TextInput v-model="origin" label="Origin" :clearable="true"/>
+    <ToggleInput v-model="propose" label="仅提议"/>
+    <TextInput v-model="origin" label="来源" :clearable="true"/>
   </div>
 
   <q-tab-panels v-model="tab" animated swipeable>

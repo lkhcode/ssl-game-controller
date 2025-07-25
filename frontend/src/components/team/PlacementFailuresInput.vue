@@ -29,7 +29,7 @@ const updateValue = (value: number | undefined) => {
 <template>
   <NumberInput
     :modelValue="model"
-    label="Ball placement failures"
+    label="放球失败次数"
     @update:model-value="updateValue"
   />
 </template>

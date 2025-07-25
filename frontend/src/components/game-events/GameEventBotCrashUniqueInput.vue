@@ -27,14 +27,14 @@ const createGameEvent = () => {
       {{ gameEventName(gameEvent.type) }}
     </q-item-label>
 
-    <TeamItem v-model="details.byTeam" label="by team"/>
-    <NumberItem v-model="details.violator" label="violator"/>
-    <NumberItem v-model="details.victim" label="victim"/>
-    <NumberItem v-model="details.crashSpeed" label="crash speed"/>
-    <NumberItem v-model="details.speedDiff" label="speed diff"/>
-    <NumberItem v-model="details.crashAngle" label="crash angle"/>
+    <TeamItem v-model="details.byTeam" label="队伍"/>
+    <NumberItem v-model="details.violator" label="违规机器人"/>
+    <NumberItem v-model="details.victim" label="受害机器人"/>
+    <NumberItem v-model="details.crashSpeed" label="碰撞速度"/>
+    <NumberItem v-model="details.speedDiff" label="速度差"/>
+    <NumberItem v-model="details.crashAngle" label="碰撞角度"/>
     <LocationItem v-model="details.location"/>
 
-    <ButtonItem label="Create" @click="createGameEvent"/>
+    <ButtonItem label="创建" @click="createGameEvent"/>
   </q-list>
 </template>

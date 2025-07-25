@@ -39,7 +39,7 @@ const removeCard = (cardId?: number) => {
   <q-markup-table dense v-if="hasData">
     <thead>
     <tr>
-      <th class="text-left" scope="col">Cause</th>
+      <th class="text-left" scope="col">原因</th>
       <th class="text-center" scope="col"></th>
     </tr>
     </thead>
@@ -53,6 +53,6 @@ const removeCard = (cardId?: number) => {
     </tbody>
   </q-markup-table>
   <p v-else>
-    No red cards
+    无红牌
   </p>
 </template>

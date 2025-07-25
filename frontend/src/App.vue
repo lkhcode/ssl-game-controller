@@ -72,24 +72,24 @@ const dev = computed(() => {
         <div class="q-mx-md">
           <ExternalConnectionStatus/>
         </div>
-        <q-toggle dense flat round class="q-mx-sm" @click="toggleDarkMode" :model-value="darkMode" color="black">Dark
+        <q-toggle dense flat round class="q-mx-sm" @click="toggleDarkMode" :model-value="darkMode" color="black">夜间模式
         </q-toggle>
         <q-toggle dense flat round class="q-mx-sm" @click="toggleShortcuts" :model-value="showShortcuts" color="black">
-          Show Shortcuts
+          显示快捷键
         </q-toggle>
         <StatusMessageButton/>
         <q-btn dense flat round icon="menu" @click="toggleRightDrawer"/>
       </q-toolbar>
 
       <q-tabs align="left">
-        <q-route-tab to="/" label="Start"/>
-        <q-route-tab to="/match" label="Match"/>
-        <q-route-tab to="/protocol" label="Protocol"/>
-        <q-route-tab to="/manual-control" label="Commands"/>
-        <q-route-tab to="/place-ball" label="Place Ball"/>
-        <q-route-tab to="/game-events" label="Game Events"/>
-        <q-route-tab to="/team-settings" label="Teams"/>
-        <q-route-tab to="/match-settings" label="Settings"/>
+        <q-route-tab to="/" label="开始"/>
+        <q-route-tab to="/match" label="比赛"/>
+        <q-route-tab to="/protocol" label="日志"/>
+        <q-route-tab to="/manual-control" label="指令"/>
+        <q-route-tab to="/place-ball" label="放球"/>
+        <q-route-tab to="/game-events" label="比赛事件"/>
+        <q-route-tab to="/team-settings" label="队伍"/>
+        <q-route-tab to="/match-settings" label="设置"/>
       </q-tabs>
     </q-header>
 

@@ -1,177 +1,176 @@
-[![CircleCI](https://circleci.com/gh/RoboCup-SSL/ssl-game-controller/tree/master.svg?style=svg)](https://circleci.com/gh/RoboCup-SSL/ssl-game-controller/tree/master)
-[![Go Report Card](https://goreportcard.com/badge/github.com/RoboCup-SSL/ssl-game-controller?style=flat-square)](https://goreportcard.com/report/github.com/RoboCup-SSL/ssl-game-controller)
-[![Go Doc](https://img.shields.io/badge/godoc-reference-blue.svg?style=flat-square)](https://godoc.org/github.com/RoboCup-SSL/ssl-game-controller)
-[![Release](https://img.shields.io/github/release/RoboCup-SSL/ssl-game-controller.svg?style=flat-square)](https://github.com/RoboCup-SSL/ssl-game-controller/releases/latest)
-[![Coverage](https://img.shields.io/badge/coverage-report-blue.svg)](https://circleci.com/api/v1.1/project/github/RoboCup-SSL/ssl-game-controller/latest/artifacts/0/coverage?branch=master)
+[![CircleCI](https://circleci.com/gh/Robocup-ssl-China/ssl-game-controller/tree/master.svg?style=svg)](https://circleci.com/gh/RoboCup-SSL/ssl-game-controller/tree/master)
+[![Go Report Card](https://goreportcard.com/badge/github.com/Robocup-ssl-China/ssl-game-controller?style=flat-square)](https://goreportcard.com/report/github.com/Robocup-ssl-China/ssl-game-controller)
+[![Go Doc](https://img.shields.io/badge/godoc-reference-blue.svg?style=flat-square)](https://godoc.org/github.com/Robocup-ssl-China/ssl-game-controller)
+[![Release](https://img.shields.io/github/release/Robocup-ssl-China/ssl-game-controller.svg?style=flat-square)](https://github.com/Robocup-ssl-China/ssl-game-controller/releases/latest)
+[![Coverage](https://img.shields.io/badge/coverage-report-blue.svg)](https://circleci.com/api/v1.1/project/github/Robocup-ssl-China/ssl-game-controller/latest/artifacts/0/coverage?branch=master)
 
 # ssl-game-controller
 
-The game controller for matches in the RoboCup Small Size league, introduced at RoboCup 2019 as a replacement of
-the [ssl-refbox](https://github.com/RoboCup-SSL/ssl-refbox).
+这是一个专门为 RoboCup 小型组（RoboCup SSL）开发的比赛控制系统。该系统在 2019 年的 RoboCup 比赛中首次投入使用，旨在替代原有的 [ssl-refbox](https://github.com/RoboCup-SSL/ssl-refbox) 裁判盒
 
 ![Screenshot of Interface](./doc/screenshot_interface.png)
 
-## Add your team name
+## 添加您的队伍
 
-If you are a new team, please add your team name to [internal/app/engine/config.go](internal/app/engine/config.go).
+如果您是新队伍，或者您没有在列表中找到您的队伍名称，请在 [internal/app/engine/config.go](internal/app/engine/config.go) 中添加您的队伍名称。
 
-## Usage
+## 使用
 
-If you just want to use this app, simply download the
-latest [release binary](https://github.com/RoboCup-SSL/ssl-game-controller/releases/latest). The binary is
-self-contained. No dependencies are required.
+如果您只是想使用本应用程序，只需从[Release](https://github.com/Robocup-ssl-China/ssl-game-controller/releases/latest)下载最新的发布版本即可。该二进制文件是独立的，无需其他依赖。
 
-You can also use pre-build docker images:
+您也可以使用预构建的 Docker 镜像(此方法仅适用于原版的GC)：
 
 ```shell script
 docker pull robocupssl/ssl-game-controller
-# Run GC with default configuration
+# 使用默认配置运行GC
 docker run -p 8081:8081 robocupssl/ssl-game-controller -address :8081
-# Mount local directories
+# 挂载本地目录
 docker run -p 8081:8081 \
-  # Local config dir
+  # 本地配置目录
   -v "$(pwd)"/config:/config \
-  # Local data dir (current state)
+  # 本地数据目录（当前状态）
   -v "$(pwd)"/data:/data \
   robocupssl/ssl-game-controller
 ```
 
-The controller will generate a default config to [config/](./config/) on the first start. Afterwards, you can change all
-settings there.
+GC在首次启动时会在 [config/](./config/) 目录下生成默认配置。之后，您可以在那里修改所有设置。
 
-For example, if you want to add a new team name temporarily, you can add it
-to [config/engine.yaml](./config/engine.yaml). If you want to add your team persistently, add it to `defaultTeams`
-in [internal/app/engine/config.go](internal/app/engine/config.go) and create a pull request on GitHub.
+例如，如果您想临时添加一个新的队伍名称，可以将其添加到 [config/engine.yaml](./config/engine.yaml) 中。如果您想永久添加您的队伍，请将其添加到 [internal/app/engine/config.go](internal/app/engine/config.go) 中的 `defaultTeams` 并在 GitHub 上创建一个拉取请求。
 
-### Runtime Requirements
+### 运行环境要求
 
-* No software dependencies (except for development, see below)
-* pre-build binaries: 64bit Linux, Windows, OSX
-* A reasonable Web-Browser (mostly tested on Chrome)
+* 无软件依赖（开发除外，见下文）
+* 预构建二进制文件支持(原版)：64位 Linux、Windows、OSX
+* 现代浏览器（主要在 Chrome 上测试）
 
-### External Runtime Dependencies
+### 外部运行依赖
 
-[ssl-vision](https://github.com/RoboCup-SSL/ssl-vision) - Receive Geometry packages for correct field dimensions.   
-If not available, make sure to configure the correct dimensions
-in [config/ssl-game-controller.yaml](config/ssl-game-controller.yaml).
+* [ssl-vision](https://github.com/RoboCup-SSL/ssl-vision) - 接收几何数据包以获取正确的场地尺寸
+* 如果没有 ssl-vision，请确保在 [config/ssl-game-controller.yaml](config/ssl-game-controller.yaml) 中配置正确的尺寸
 
-tracker-source implementation that produces
-[TrackerWrapperPacket](https://github.com/RoboCup-SSL/ssl-vision/blob/master/src/shared/proto/messages_robocup_ssl_wrapper_tracked.proto) -
-Get ball and robot positions.      
-Required for:
- * Check ball placement progress
- * Check for correct number of robots per team
- * Check if game can continue (ball and robots prepared)
- * Check for "no progress"
- * Check if keeper may be changed via team protocol
+需要一个能产生 [TrackerWrapperPacket](https://github.com/RoboCup-SSL/ssl-vision/blob/master/src/shared/proto/messages_robocup_ssl_wrapper_tracked.proto) 的跟踪源实现来获取球和机器人位置.  
+   
+这对以下功能是必需的：
+* 检查放球进度
+* 检查每队机器人数量是否正确
+* 检查比赛是否可以继续（球和机器人准备就绪）
+* 检查比赛僵持状态
+* 检查是否可以通过remote-control更换守门员
 
-The [TIGERs AutoRef](https://github.com/TIGERs-Mannheim/AutoReferee) and
-the [ER-Force AutoRef](https://github.com/robotics-erlangen/autoref) are tracker-source implementations.
-If no tracker-source is available, the above features will not work.
+[TIGERs AutoRef](https://github.com/TIGERs-Mannheim/AutoReferee) 和 [ER-Force AutoRef](https://github.com/robotics-erlangen/autoref) 是跟踪源的实现示例。如果没有可用的跟踪源，上述功能将无法工作。在国内的比赛中，我们主要使用TIGERs的AutoRef
 
-### Reference Clients
-There are some reference clients:
- * [ssl-ref-client](./cmd/ssl-ref-client): A client that receives referee messages
- * [ssl-auto-ref-client](./cmd/ssl-auto-ref-client/README.md): A client that connects to the controller as an autoRef
- * [ssl-team-client](./cmd/ssl-team-client/README.md): A client that connects to the controller as a team
- * [ssl-remote-control-client](./cmd/ssl-remote-control-client/README.md): A client that connects to the controller as a remote-control
- * [ssl-ci-test-client](./cmd/ssl-ci-test-client/README.md): A client that connects to the CI interface of the controller
- 
-### Integration into your own framework
-The game-controller is designed to be integrated into your own AI framework, if you do not want to implement your own controller for testing purposes.
+### 参考样例
+官方项目提供了以下参考客户端，便于各队伍开发自己的软件：
+ * [ssl-ref-client](./cmd/ssl-ref-client): 接收裁判消息的客户端
+ * [ssl-auto-ref-client](./cmd/ssl-auto-ref-client/README.md): 作为自动裁判连接到GC的客户端
+ * [ssl-team-client](./cmd/ssl-team-client/README.md): 作为队伍连接到GC的客户端
+ * [ssl-remote-control-client](./cmd/ssl-remote-control-client/README.md): 作为远程控制连接到GC的客户端
+ * [ssl-ci-test-client](./cmd/ssl-ci-test-client/README.md): 连接到GC的 CI 接口的客户端
 
-Download the release binary from the Github release and run it from inside your framework.
-You can adapt the `ssl-game-controller.yaml` config file that is generated on first startup,
-like changing the default ports. Some parameters can also be passed via command line.
-Find the available parameters with the `-h` option.
-Make sure to use non-standard ports whenever possible to avoid any interference with a real field setup.
+### 在命令行运行ssl-game-controller可使用的参数
 
-There are three modes that you can run the ssl-game-controller with:
+  -address string
+        提供UI 和 API 服务的地址（默认为 "localhost:8081"）
+  
+  -backendOnly
+        仅运行后端，不启动 UI 和 API 服务
+  
+  -ciAddress string
+        提供 CI 连接服务的地址
+  
+  -publishAddress string
+        发送裁判命令的地址（IP+端口）
+  
+  -skipInterfaces string
+        接收多播数据包时要忽略的网络接口名称列表（用逗号分隔）
+  
+  -timeAcquisitionMode string
+        使用的时间获取模式（system：系统时间，ci：CI模式，vision：视觉系统时间）
+  
+  -trackerAddress string
+        接收追踪源数据包的地址（IP+端口）
+  
+  -verbose
+        输出详细日志信息
+  
+  -visionAddress string
+        接收视觉系统数据包的地址（IP+端口）
 
-1. `system` (default): Use system time
-2. `vision`: Receive messages from ssl-vision and use the timestamps from these messages as the time source. This is mostly useful, when you produce your own ssl-vision frames from simulation.
-3. `ci`: Connect your software directly to the GC via TCP. You send the current timestamp and tracker packets and will receive the resulting referee message.
+### 集成到您自己的框架
+如果您不想为测试目的实现自己的控制器，游戏控制器设计为可以集成到您自己的 AI 框架中。
 
-It is highly recommended using the `ci` mode when you integrate the GC with your own simulator.
-It has the following advantages:
+从 Github 发布页面下载发布版本的二进制文件，并在您的框架内运行它。您可以调整首次启动时生成的 `ssl-game-controller.yaml` 配置文件，比如更改默认端口。某些参数也可以通过命令行传递。使用 `-h` 选项可以查看可用参数。请尽可能使用非标准端口，以避免与实际场地设置产生干扰。
 
-1. No multicast network traffic is required that might be published to your local network (make sure to unset `network.publish-address`)
-2. You have full control of the data flow. The GC will not do anything asynchronously in the background
-3. You define the time and thus the speed.
-4. You provide the ssl-vision tracking data directly.
+游戏控制器可以在以下三种模式下运行：
 
-If you use external simulators like grSim, you can consider using the `vision` mode instead.
-That way, the game-controller uses the time and speed of the simulator, even if it is not
-running in real time. You then still need to run a tracking-source implementation like an AutoRef
-if you require the additional features described in [External Runtime Dependencies](#External Runtime Dependencies).
+1. `system`（默认）：使用系统时间
+2. `vision`：接收来自 ssl-vision 的消息，并使用这些消息中的时间戳作为时间源。这在从仿真中生成自己的 ssl-vision 帧时特别有用。
+3. `ci`：通过 TCP 直接将您的软件连接到控制器。您发送当前时间戳和跟踪数据包，并将收到相应的裁判消息。
 
-When you enable `ci` mode, referee messages will still be published via multicast,
-unless the address is unset (set to an empty string). That way, you can still integrate
-an autoRef or other software. Have a look at [Auto-referee CI](doc/AutoRefCi.md) for details on how to integrate the auto-referees in a CI way as well.
+当您将控制器与自己的仿真器集成时，强烈建议使用 `ci` 模式。它具有以下优势：
 
-When the `ci` mode is enabled (via `ssl-game-controller.yaml` -> `time-acquisition-mode`),
-a TCP port is opened (default: 10009). The protocol is defined in [proto/ssl_gc_ci.proto](./proto/ssl_gc_ci.proto).
-You send `CiInput` messages and receive `CiOutput` messages. The protocol is the same as for the [team-client](./cmd/ssl-team-client/README.md).
-Each input will produce one or more outputs.
-This is, because some changes will generate multiple messages.
-`CiOutput` messages will also be pushed to the CI client for manual changes from the UI or UI API.
+1. 不需要可能发布到本地网络的多播网络流量（确保取消设置 `network.publish-address`）
+2. 您可以完全控制数据流。控制器不会在后台异步执行任何操作
+3. 您可以定义时间，从而控制速度
+4. 您可以直接提供 ssl-vision 跟踪数据
 
-The GC requires some input data, see [External Runtime Dependencies](#External Runtime Dependencies).
-In the `ci` mode, you have to provide the geometry statically in [config/ssl-game-controller.yaml](config/ssl-game-controller.yaml) or send it through `CiInput`.
-The ball and robot positions must be sent with the `CiInput`.
-It is sufficient to fill in the required fields and keep the optional empty.
+如果您使用外部仿真器（如 grSim，rocos），可以考虑使用 `vision` 模式。这样，游戏控制器将使用仿真器的时间和速度，即使它不是实时运行的。如果需要上述功能，仍然需要运行一个跟踪源实现，如Autoref。
 
-A small sample test client for the `ci` mode can be found here: [ssl-ci-test-client](./cmd/ssl-ci-test-client/README.md)
+启用 `ci` 模式时，裁判消息仍将通过多播发布，除非地址未设置（设置为空字符串）。这样，您仍然可以集成自动裁判或其他软件。有关如何以 CI 方式集成自动裁判的详细信息，请参阅 [Auto-referee CI](doc/AutoRefCi.md)。
 
-If you can not use the `ci` mode, you can alternatively connect to the GC using the UI WebSocket API.
-The API is defined in [proto/ssl_gc_api.proto](./proto/ssl_gc_api.proto) and available at the path `/api/control`
-under the same port as the UI.
+启用 `ci` 模式时（通过 `ssl-game-controller.yaml` -> `time-acquisition-mode`），将打开一个 TCP 端口（默认：10009）。协议在 [proto/ssl_gc_ci.proto](./proto/ssl_gc_ci.proto) 中定义。您发送 `CiInput` 消息并接收 `CiOutput` 消息。协议与 [team-client](./cmd/ssl-team-client/README.md) 相同。每个输入将产生一个或多个输出。这是因为某些更改会生成多个消息。`CiOutput` 消息也会在 UI 或 UI API 中手动更改时推送到 CI 客户端。
 
-#### Examples
- * Integration of the binary: https://github.com/TIGERs-Mannheim/AutoReferee/blob/master/modules/moduli-referee/src/main/java/edu/tigers/sumatra/referee/SslGameControllerProcess.java
- * WebSocket API in Java: https://github.com/TIGERs-Mannheim/AutoReferee/blob/master/modules/moduli-referee/src/main/java/edu/tigers/sumatra/referee/control
+GC 需要一些输入数据，请参阅 [外部运行依赖](#外部运行依赖)。在 `ci` 模式下，您必须在 [config/ssl-game-controller.yaml](config/ssl-game-controller.yaml) 中静态提供几何数据，或通过 `CiInput` 发送。球和机器人位置必须通过 `CiInput` 发送。只需填写必填字段，保持可选字段为空即可。
 
-## Development
+这里有一个 `ci` 模式的小型测试客户端示例：[ssl-ci-test-client](./cmd/ssl-ci-test-client/README.md)
 
-### Requirements
+如果不能使用 `ci` 模式，您可以通过 UI WebSocket API 连接到 GC。API 在 [proto/ssl_gc_api.proto](./proto/ssl_gc_api.proto) 中定义，并在与 UI 相同的端口下的路径 `/api/control` 提供。
 
-You need to install following dependencies first:
+#### 示例
+ * 二进制集成示例：https://github.com/TIGERs-Mannheim/AutoReferee/blob/master/modules/moduli-referee/src/main/java/edu/tigers/sumatra/referee/SslGameControllerProcess.java
+ * Java 中的 WebSocket API 示例：https://github.com/TIGERs-Mannheim/AutoReferee/blob/master/modules/moduli-referee/src/main/java/edu/tigers/sumatra/referee/control
 
-* Go
-* Node
+## 开发
 
-See [.circleci/config.yml](.circleci/config.yml) for compatible versions.
+### 环境要求
 
-### Frontend
+首先需要安装以下依赖：
 
-See [frontend/README.md](frontend/README.md)
+* Go 语言环境
+* Node.js 环境
 
-### Build
+具体兼容版本请参考 [.circleci/config.yml](.circleci/config.yml)。
 
-Build and install all binaries:
+### 前端开发
+
+详见 [frontend/README.md](frontend/README.md)
+
+### 构建
+
+构建并安装所有二进制文件：
 
 ```bash
 make install
 ```
 
-### Run
+### 运行
 
 ```bash
 go run cmd/ssl-game-controller/main.go
 ```
 
-### Test with autoRefs
+### 与Autorefs联合使用
 
-To quickly run the GC together with autoRefs and other popular components, run:
+要快速运行GC并集成Autorefs及其他常用组件，请执行：
 
-```shell
+```bash
 docker compose up
 ```
 
-### Update generated protobuf code
+### 更新协议缓冲区生成的代码
 
-Generate the code for the `.proto` files after you've changed anything in a `.proto` file with:
+如果您修改了任何 `.proto` 文件，需要重新生成代码：
 
-```shell
+```bash
 make proto
 ```

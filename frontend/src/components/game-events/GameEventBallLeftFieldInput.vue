@@ -14,9 +14,9 @@ const byBot = ref<number | undefined>()
 const location = ref<Vector2Json>()
 
 const gameEventTypeOptions = [
-  {label: 'touch line', value: 'BALL_LEFT_FIELD_TOUCH_LINE'},
-  {label: 'goal line', value: 'BALL_LEFT_FIELD_GOAL_LINE'},
-  {label: 'aimless kick', value: 'AIMLESS_KICK'},
+  {label: '边线', value: 'BALL_LEFT_FIELD_TOUCH_LINE'},
+  {label: '球门线', value: 'BALL_LEFT_FIELD_GOAL_LINE'},
+  {label: '无意义射门', value: 'AIMLESS_KICK'},
 ]
 
 const constructGameEvent = (): GameEventJson | undefined => {
@@ -63,7 +63,7 @@ const createGameEvent = () => {
 <template>
   <q-list bordered>
     <q-item-label header>
-      Ball left field
+      界外球
     </q-item-label>
 
     <q-item>
@@ -76,10 +76,10 @@ const createGameEvent = () => {
       </q-item-section>
     </q-item>
 
-    <TeamItem v-model="byTeam" label="by team"/>
-    <NumberItem v-model="byBot" label="by bot"/>
+    <TeamItem v-model="byTeam" label="出界方"/>
+    <NumberItem v-model="byBot" label="机器人"/>
     <LocationItem v-model="location"/>
 
-    <ButtonItem label="Create" @click="createGameEvent"/>
+    <ButtonItem label="创建" @click="createGameEvent"/>
   </q-list>
 </template>
