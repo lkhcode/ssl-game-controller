@@ -481,6 +481,7 @@ func stopsTheGame(gameEvent state.GameEvent_Type) bool {
 		state.GameEvent_BOUNDARY_CROSSING,
 		state.GameEvent_KEEPER_HELD_BALL,
 		state.GameEvent_BOT_DRIBBLED_BALL_TOO_FAR,
+		state.GameEvent_ATTACKER_TOUCHED_BALL_IN_DEFENSE_AREA, // 新增：国赛规则下应中断比赛
 		// manual fouls
 		state.GameEvent_BOT_PUSHED_BOT,
 		state.GameEvent_BOT_HELD_BALL_DELIBERATELY,
