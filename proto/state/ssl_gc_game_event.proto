@@ -588,7 +588,7 @@ message GameEvent {
         ATTACKER_TOUCHED_OPPONENT_IN_DEFENSE_AREA_SKIPPED = 40 [deprecated = true];
         BOT_CRASH_UNIQUE_SKIPPED = 23 [deprecated = true];
         BOT_PUSHED_BOT_SKIPPED = 25 [deprecated = true];
-        DEFENDER_IN_DEFENSE_AREA_PARTIALLY = 30 [deprecated = true];
+        DEFENDER_IN_DEFENSE_AREA_PARTIALLY = 30;    //部分进入禁区触球
         MULTIPLE_PLACEMENT_FAILURES = 33 [deprecated = true];
     }
 }
