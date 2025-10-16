@@ -482,6 +482,9 @@ func stopsTheGame(gameEvent state.GameEvent_Type) bool {
 		state.GameEvent_KEEPER_HELD_BALL,
 		state.GameEvent_BOT_DRIBBLED_BALL_TOO_FAR,
 		state.GameEvent_ATTACKER_TOUCHED_BALL_IN_DEFENSE_AREA, // 新增：国赛规则下应中断比赛
+		state.GameEvent_BOT_KICKED_BALL_TOO_FAST, // 新增：国赛规则下应中断比赛
+		state.GameEvent_BOT_CRASH_UNIQUE, // 新增：国赛规则下应中断比赛
+		state.GameEvent_BOT_CRASH_DRAWN, // 新增：国赛规则下应中断比赛
 		// manual fouls
 		state.GameEvent_BOT_PUSHED_BOT,
 		state.GameEvent_BOT_HELD_BALL_DELIBERATELY,
@@ -520,9 +523,9 @@ func isRuleViolationDuringPenalty(gameEvent state.GameEvent_Type) bool {
 func isNonStoppingFoul(gameEvent state.GameEvent_Type) bool {
 	switch gameEvent {
 	case state.GameEvent_ATTACKER_TOUCHED_BALL_IN_DEFENSE_AREA,
-		state.GameEvent_BOT_KICKED_BALL_TOO_FAST,
-		state.GameEvent_BOT_CRASH_UNIQUE,
-		state.GameEvent_BOT_CRASH_DRAWN:
+		// state.GameEvent_BOT_KICKED_BALL_TOO_FAST,  // 移除：国赛规则下应为停止犯规
+		// state.GameEvent_BOT_CRASH_UNIQUE,  // 移除：国赛规则下应为停止犯规
+		// state.GameEvent_BOT_CRASH_DRAWN: // 移除：国赛规则下应为停止犯规
 		return true
 	}
 	return false
