@@ -392,10 +392,11 @@ func suggestEndOfMatch(currentState *state.State) bool {
 		return goalsY != goalsB
 	}
 
-	if *currentState.Stage != state.Referee_POST_GAME &&
-		(goalsY >= 10 || goalsB >= 10) && math.Abs(float64(goalsY-goalsB)) > 1 {
-		return true
-	}
+       // 国赛规则：一队进球数达到10且领先对方1球及以上，比赛立即结束
+       if *currentState.Stage != state.Referee_POST_GAME &&
+	       ((goalsY >= 10 && goalsY - goalsB >= 1) || (goalsB >= 10 && goalsB - goalsY >= 1)) {
+	       return true
+       }
 
 	if *currentState.Stage == state.Referee_NORMAL_SECOND_HALF ||
 		*currentState.Stage == state.Referee_EXTRA_SECOND_HALF {
