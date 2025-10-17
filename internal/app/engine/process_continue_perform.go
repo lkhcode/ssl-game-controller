@@ -19,6 +19,10 @@ func (e *Engine) performContinueAction(action *ContinueAction) {
 		e.Enqueue(createCommandChange(state.NewCommandNeutral(state.Command_FORCE_START)))
 	case ContinueAction_FREE_KICK:
 		e.Enqueue(createCommandChange(state.NewCommand(state.Command_DIRECT, *action.ForTeam)))
+	case ContinueAction_DIRECT_KICK:
+		e.Enqueue(createCommandChange(state.NewCommand(state.Command_DIRECT, *action.ForTeam)))
+	case ContinueAction_INDIRECT_KICK:
+		e.Enqueue(createCommandChange(state.NewCommand(state.Command_INDIRECT, *action.ForTeam)))
 	case ContinueAction_NEXT_COMMAND:
 		e.Enqueue(createCommandChange(e.currentState.NextCommand))
 	case ContinueAction_BALL_PLACEMENT_START:

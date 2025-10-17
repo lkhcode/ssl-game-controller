@@ -58,6 +58,8 @@ message GameState {
         PENALTY = 6;
         TIMEOUT = 7;
         BALL_PLACEMENT = 8;
+        DIRECT = 9;
+        INDIRECT = 10;
     }
 }
 

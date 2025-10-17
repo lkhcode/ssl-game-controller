@@ -117,6 +117,8 @@ message ContinueAction {
         STOP_GAME = 2;
         FORCE_START = 11;
         FREE_KICK = 17;
+        DIRECT_KICK = 21;
+        INDIRECT_KICK = 22;
         NEXT_COMMAND = 3;
         BALL_PLACEMENT_START = 4;
         BALL_PLACEMENT_CANCEL = 9;

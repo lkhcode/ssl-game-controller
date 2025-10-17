@@ -218,7 +218,9 @@ func (e *Engine) readyToContinueFromStop() (issues []string) {
 	radius := e.gameConfig.DistanceToBallInStop + robotRadius - distanceThreshold
 
 	var robots []*Robot
-	if e.currentState.NextCommand != nil && *e.currentState.NextCommand.Type == state.Command_DIRECT {
+	if e.currentState.NextCommand != nil && 
+	(*e.currentState.NextCommand.Type == state.Command_DIRECT ||
+		*e.currentState.NextCommand.Type == state.Command_INDIRECT) {
 		// Only check for opponent teams robots
 		// This is not strictly correct, but necessary to continue directly after a ball placement, without
 		// waiting for robots to move out of the stop radius.

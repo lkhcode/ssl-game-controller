@@ -193,7 +193,7 @@ func (s *StateMachine) processChangeAddGameEvent(newState *state.State, change *
 
 		if *newState.Division == state.Division_DIV_A && ballLeftField(newState) {
 			newState.NextCommand = state.NewCommand(state.Command_DIRECT, byTeam.Opposite())
-		}
+		}	//当球出边线时，对手获得直接任意球
 	}
 
 	// ball placement succeeded
@@ -225,6 +225,9 @@ func (s *StateMachine) processChangeAddGameEvent(newState *state.State, change *
 
 		switch *newState.Command.Type {
 		case state.Command_DIRECT:
+			newState.CurrentActionTimeRemaining = durationpb.New(s.gameConfig.FreeKickTimeout[newState.Division.Div()])
+		case state.Command_INDIRECT:
+			//INDIRECT 与 DIRECT 超时相同，可沿用FreeKickTimeout
 			newState.CurrentActionTimeRemaining = durationpb.New(s.gameConfig.FreeKickTimeout[newState.Division.Div()])
 		case state.Command_NORMAL_START:
 			newState.CurrentActionTimeRemaining = durationpb.New(s.gameConfig.PrepareTimeout)
@@ -346,22 +349,32 @@ func (s *StateMachine) nextCommandForEvent(newState *state.State, gameEvent *sta
 	}
 	switch *gameEvent.Type {
 	case state.GameEvent_BALL_LEFT_FIELD_GOAL_LINE,
-		state.GameEvent_BALL_LEFT_FIELD_TOUCH_LINE,
-		state.GameEvent_AIMLESS_KICK,
+		state.GameEvent_BALL_LEFT_FIELD_TOUCH_LINE,//INDIRECT
+		state.GameEvent_AIMLESS_KICK,//INDIRECT
 		state.GameEvent_ATTACKER_TOO_CLOSE_TO_DEFENSE_AREA,
 		state.GameEvent_BOT_PUSHED_BOT,
 		state.GameEvent_BOT_HELD_BALL_DELIBERATELY,
 		state.GameEvent_BOT_TIPPED_OVER,
 		state.GameEvent_BOT_DROPPED_PARTS,
-		state.GameEvent_KEEPER_HELD_BALL,
-		state.GameEvent_BOUNDARY_CROSSING,
-		state.GameEvent_BOT_DRIBBLED_BALL_TOO_FAR,
-		state.GameEvent_ATTACKER_DOUBLE_TOUCHED_BALL,
+		state.GameEvent_KEEPER_HELD_BALL,//INDIRECT
+		state.GameEvent_BOUNDARY_CROSSING,//INDIRECT
+		state.GameEvent_BOT_DRIBBLED_BALL_TOO_FAR,//INDIRECT
+		state.GameEvent_ATTACKER_DOUBLE_TOUCHED_BALL,//INDIRECT
 		state.GameEvent_PENALTY_KICK_FAILED,
 		state.GameEvent_INVALID_GOAL:
 		return lastCommandOnUnknownTeam(
 			newState.NextCommand,
 			state.NewCommand(state.Command_DIRECT, gameEvent.ByTeam().Opposite()),
+		)
+	case state.GameEvent_BALL_LEFT_FIELD_TOUCH_LINE,
+		state.GameEvent_AIMLESS_KICK,
+		state.GameEvent_KEEPER_HELD_BALL,
+		state.GameEvent_BOUNDARY_CROSSING,
+		state.GameEvent_BOT_DRIBBLED_BALL_TOO_FAR,
+		state.GameEvent_ATTACKER_DOUBLE_TOUCHED_BALL:
+		return lastCommandOnUnknownTeam(
+			newState.NextCommand,
+			state.NewCommand(state.Command_INDIRECT, gameEvent.ByTeam().Opposite()),
 		)
 	case state.GameEvent_DEFENDER_IN_DEFENSE_AREA:
 		return lastCommandOnUnknownTeam(
