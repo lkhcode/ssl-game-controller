@@ -57,7 +57,7 @@
 
 ## 使用
 
-如果您只是想使用本应用程序，只需从[Release](https://github.com/Robocup-ssl-China/ssl-game-controller/releases/latest)下载最新的发布版本即可。该二进制文件是独立的，无需其他依赖。
+如果您只是想使用本应用程序，只需从[Release](https://github.com/lkhcode/ssl-game-controller/releases/latest)下载最新的发布版本即可。该二进制文件是独立的，无需其他依赖。
 
 
 GC在首次启动时会在 [config/](./config/) 目录下生成默认配置。之后，您可以在那里修改所有设置。
