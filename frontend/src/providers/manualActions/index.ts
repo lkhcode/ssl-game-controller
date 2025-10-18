@@ -88,6 +88,8 @@ export class ManualActions {
         return this.matchStateStore.isStop
       case 'DIRECT':
         return this.matchStateStore.isStop
+      case 'INDIRECT':
+        return this.matchStateStore.isStop
       case 'KICKOFF':
         return this.matchStateStore.isStop
       case 'PENALTY':
