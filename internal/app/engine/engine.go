@@ -141,7 +141,7 @@ func (e *Engine) processGameEvent(gameEvent *state.GameEvent) *state.GameEvent {
 	}
 
 	// convert aimless kick if necessary
-	if /*e.currentState.Division.Div() == config.DivA*/ && *gameEvent.Type == state.GameEvent_AIMLESS_KICK {
+	if /*e.currentState.Division.Div() == config.DivA &&*/ *gameEvent.Type == state.GameEvent_AIMLESS_KICK {
 		return convertAimlessKick(gameEvent)
 	}
 	return gameEvent
