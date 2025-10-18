@@ -19,7 +19,7 @@
 
 2. 在国际赛中，间接任意球被删去，只留下了`DIRECT KICK(即FREE KICK 任意球)`，本项目重新启用了proto中被弃用的INDRECT部分，并修改了部分协议，不过协议的修改不会影响队伍的rocos的裁判盒指令接收
 
-3. 发生以下事件，比赛恢暂停，但下一指令由直接任意球变为间接任意球
+3. 发生以下事件，比赛暂停，但下一指令由直接任意球变为间接任意球
 - 边线球 `BALL_LEFT_FIELD_TOUCH_LINE`
 - 无意义射门 `AIMLESS_KICK`
 - 守门员持球 `KEEPER_HELD_BALL`
