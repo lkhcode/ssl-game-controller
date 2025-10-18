@@ -34,31 +34,35 @@ export function stageName(stage: Referee_StageJson): string {
     case 'POST_GAME':
       return '比赛结束'
   }
+  return 'Unknown'
 }
 
 export function commandName(type: Command_TypeJson): string {
   switch (type) {
     case 'HALT':
-      return 'Halt'
+      return 'Halt 终止'
     case 'STOP':
-      return 'Stop'
+      return 'Stop 停止'
     case 'NORMAL_START':
-      return 'Normal Start'
+      return 'Normal Start 标准开始'
     case 'FORCE_START':
-      return 'Force Start'
+      return 'Force Start 强制开始'
     case 'DIRECT':
-      return 'Free Kick'
+      return 'Direct Kick 直接任意球'
+    case 'INDIRECT':
+      return 'Indirect Kick 间接任意球'
     case 'KICKOFF':
-      return 'Kick-Off'
+      return 'Kick-Off 开球'
     case 'PENALTY':
-      return 'Penalty'
+      return 'Penalty 点球'
     case 'TIMEOUT':
-      return 'Timeout'
+      return 'Timeout 暂停'
     case 'BALL_PLACEMENT':
-      return 'Ball Placement'
+      return 'Ball Placement 放球'
     case 'UNKNOWN':
       return 'Unknown'
   }
+  return 'Unknown'
 }
 
 export function gameStateName(type: GameState_TypeJson): string {
@@ -79,9 +83,14 @@ export function gameStateName(type: GameState_TypeJson): string {
       return "Timeout"
     case 'BALL_PLACEMENT':
       return "Ball Placement"
+    case 'DIRECT':
+      return "Direct Kick"
+    case 'INDIRECT':
+      return "Indirect Kick"
     case 'UNKNOWN':
       return "Unknown"
   }
+  return 'Unknown'
 }
 
 export const gameEventNames = new Map<GameEvent_TypeJson, string>([
@@ -139,51 +148,57 @@ export function matchTypeName(matchType: MatchTypeJson): string {
     case 'FRIENDLY':
       return "友谊赛"
   }
+  return 'Unknown'
 }
 
 export function continueActionLabel(type: ContinueAction_TypeJson, nextCommand?: CommandJson): string {
   switch (type) {
     case 'HALT':
-      return 'Halt'
+      return 'Halt 终止'
     case 'RESUME_FROM_HALT':
       return '恢复 (Halt -> Stop)'
     case 'STOP_GAME':
-      return 'Stop'
+      return 'Stop 停止'
     case 'FORCE_START':
-      return 'Force Start (无下一指令)'
+      return 'Force Start 强制开始 (无下一指令)'
     case 'FREE_KICK':
-      return 'Free Kick (无下一指令)'
+      return 'Direct Kick 直接任意球 (无下一指令)'
+    case 'DIRECT_KICK':
+      return 'Direct Kick 直接任意球 (无下一指令)'
+    case 'INDIRECT_KICK':
+      return 'Indirect Kick 间接任意球 (无下一指令)'
     case 'NEXT_COMMAND':
       return commandName(nextCommand?.type!)
     case 'BALL_PLACEMENT_START':
-      return '开始放球'
+      return 'Start Ball Placement 开始放球'
     case 'BALL_PLACEMENT_CANCEL':
-      return '取消放球'
+      return 'Cancel Ball Placement 取消放球'
     case 'BALL_PLACEMENT_COMPLETE':
-      return '完成放球'
+      return 'Complete Ball Placement 完成放球'
     case 'BALL_PLACEMENT_FAIL':
-      return '放球失败'
+      return 'Ball Placement Failed 放球失败'
     case 'TIMEOUT_START':
-      return 'Timeout开始'
+      return 'Start Timeout 开始暂停'
     case 'TIMEOUT_STOP':
-      return 'Timeout结束'
+      return 'Timeout Stop 暂停结束'
     case 'BOT_SUBSTITUTION':
-      return '开始机器人更换'
+      return 'Start Bot Substitution 开始机器人更换'
     case 'NEXT_STAGE':
-      return '下一阶段'
+      return 'Next Stage 下一阶段'
     case 'END_GAME':
-      return '比赛结束'
+      return 'End Game 比赛结束'
     case 'ACCEPT_GOAL':
-      return '进球有效'
+      return 'Accept Goal 进球有效'
     case 'REJECT_GOAL':
-      return '进球无效'
+      return 'Reject Goal 进球无效'
     case 'NORMAL_START':
-      return 'Normal Start'
+      return 'Normal Start 标准开始'
     case 'CHALLENGE_ACCEPT':
-      return '接受异议'
+      return 'Accept Challenge 接受异议'
     case 'CHALLENGE_REJECT':
-      return '反对异议'
+      return 'Reject Challenge 反对异议'
     case 'TYPE_UNKNOWN':
-      return 'Unknown'
+      return '指令异常'
   }
+  return '指令异常'
 }
