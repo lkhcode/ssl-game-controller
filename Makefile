@@ -2,6 +2,25 @@ CMDS = ssl-game-controller ssl-ref-client
 DOCKER_TARGETS = $(addprefix docker-, $(CMDS))
 .PHONY: all docker frontend install test run proto $(DOCKER_TARGETS) build
 
+# 检测操作系统
+ifeq ($(OS),Windows_NT)
+    # Windows
+    TOUCH = type nul >
+    RM = del /F /Q
+    FRONTEND_FILES = frontend/package.json frontend/package-lock.json
+    EXE_EXT = .exe
+    GOOS = windows
+    GOARCH = amd64
+else
+    # Linux/Unix
+    TOUCH = touch
+    RM = rm -f
+    FRONTEND_FILES = $(shell find frontend/ -type f -not -path "frontend/node_modules/*")
+    EXE_EXT = 
+    GOOS = $(shell go env GOOS)
+    GOARCH = $(shell go env GOARCH)
+endif
+
 all: install docker
 
 docker: $(DOCKER_TARGETS)
@@ -9,11 +28,11 @@ docker: $(DOCKER_TARGETS)
 $(DOCKER_TARGETS): docker-%:
 	docker build -f ./cmd/$*/Dockerfile -t $*:latest .
 
-.frontend: $(shell find frontend/ -type f -not -path "frontend/node_modules/*")
+.frontend: $(FRONTEND_FILES)
 	cd frontend && \
 	npm install && \
-	npm run build && \
-	touch ../.frontend
+	npm run build
+	$(TOUCH) .frontend
 
 frontend: .frontend
 
@@ -45,4 +64,10 @@ update-frontend:
 update: update-backend update-frontend proto
 
 build: frontend
-	go build -o ./bin/ssl-game-controller ./cmd/ssl-game-controller
+ifeq ($(OS),Windows_NT)
+	go env -w GOOS=windows
+	go env -w GOARCH=amd64
+	go build -o ./bin/ssl-game-controller$(EXE_EXT) ./cmd/ssl-game-controller
+else
+	GOOS=$(GOOS) GOARCH=$(GOARCH) go build -o ./bin/ssl-game-controller$(EXE_EXT) ./cmd/ssl-game-controller
+endif
