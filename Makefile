@@ -1,6 +1,6 @@
 CMDS = ssl-game-controller ssl-ref-client
 DOCKER_TARGETS = $(addprefix docker-, $(CMDS))
-.PHONY: all docker frontend install test run proto $(DOCKER_TARGETS)
+.PHONY: all docker frontend install test run proto $(DOCKER_TARGETS) build
 
 all: install docker
 
@@ -43,3 +43,6 @@ update-frontend:
 	npm update --save
 
 update: update-backend update-frontend proto
+
+build: frontend
+	go build -o ./bin/ssl-game-controller ./cmd/ssl-game-controller

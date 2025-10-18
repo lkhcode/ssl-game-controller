@@ -29,3 +29,4 @@ yarn-error.log*
 # Make cache
 /.frontend
 frontend/package-lock.json
+bin/*
