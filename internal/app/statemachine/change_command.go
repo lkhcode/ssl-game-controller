@@ -114,7 +114,9 @@ func (s *StateMachine) newGameState(newState *state.State, newCommand *Change_Ne
 	case state.Command_FORCE_START:
 		return state.NewGameStateNeutral(state.GameState_RUNNING)
 	case state.Command_DIRECT:
-		return state.NewGameStateWithTeam(state.GameState_FREE_KICK, *newCommand.Command.ForTeam)
+		return state.NewGameStateWithTeam(state.GameState_DIRECT, *newCommand.Command.ForTeam)
+	case state.Command_INDIRECT:
+		return state.NewGameStateWithTeam(state.GameState_INDIRECT, *newCommand.Command.ForTeam)
 	case state.Command_KICKOFF:
 		return state.NewGameStateWithTeam(state.GameState_KICKOFF, *newCommand.Command.ForTeam)
 	case state.Command_PENALTY:

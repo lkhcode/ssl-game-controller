@@ -2,11 +2,11 @@ package engine
 
 import (
 	"fmt"
+	"log"
+	"time"
+
 	"github.com/RoboCup-SSL/ssl-game-controller/internal/app/geom"
 	"github.com/RoboCup-SSL/ssl-game-controller/internal/app/state"
-	"log"
-	"math"
-	"time"
 )
 
 func (e *Engine) nextActions() (actions []*ContinueAction, hints []*ContinueHint) {
@@ -84,11 +84,11 @@ func (e *Engine) nextActions() (actions []*ContinueAction, hints []*ContinueHint
 		)
 		if e.teamDoingBotSubstitution() {
 			continueFromHalt.ContinuationIssues = append(continueFromHalt.ContinuationIssues,
-				"Robot substitution in progress")
+				"机器人更换中 Robot substitution in progress")
 		}
 
 		if e.currentState.MatchType == nil || *e.currentState.MatchType == state.MatchType_UNKNOWN_MATCH {
-			continueFromHalt.ContinuationIssues = append(continueFromHalt.ContinuationIssues, "Match type is not set")
+			continueFromHalt.ContinuationIssues = append(continueFromHalt.ContinuationIssues, "未设置比赛类型 Match type is not set")
 			*continueFromHalt.State = ContinueAction_DISABLED
 		}
 
@@ -112,7 +112,9 @@ func (e *Engine) nextActions() (actions []*ContinueAction, hints []*ContinueHint
 				ContinueAction_FORCE_START,
 				ContinueAction_FREE_KICK,
 				ContinueAction_NEXT_COMMAND,
-				ContinueAction_BALL_PLACEMENT_START:
+				ContinueAction_BALL_PLACEMENT_START,
+				ContinueAction_DIRECT_KICK,
+				ContinueAction_INDIRECT_KICK:
 				*action.State = ContinueAction_DISABLED
 			}
 		}
@@ -212,7 +214,7 @@ func (e *Engine) actionsToContinueFromStop() (actions []*ContinueAction, hints [
 				ContinueAction_READY_AUTO,
 			))
 		} else {
-			hint := fmt.Sprintf("Manually place the ball at x: %.2fm, y: %.2fm",
+			hint := fmt.Sprintf("请人工放球至 x: %.2fm, y: %.2fm",
 				*e.currentState.PlacementPos.X, *e.currentState.PlacementPos.Y)
 			hints = append(hints, &ContinueHint{
 				Message: &hint,
@@ -229,8 +231,10 @@ func (e *Engine) actionsToContinueFromStop() (actions []*ContinueAction, hints [
 		actions = append(actions, e.createNextCommandContinueAction(ContinueAction_NEXT_COMMAND, forTeam))
 	} else {
 		actions = append(actions, e.createNextCommandContinueAction(ContinueAction_FORCE_START, state.Team_UNKNOWN))
-		actions = append(actions, e.createNextCommandContinueAction(ContinueAction_FREE_KICK, state.Team_YELLOW))
-		actions = append(actions, e.createNextCommandContinueAction(ContinueAction_FREE_KICK, state.Team_BLUE))
+		actions = append(actions, e.createNextCommandContinueAction(ContinueAction_DIRECT_KICK, state.Team_YELLOW))
+		actions = append(actions, e.createNextCommandContinueAction(ContinueAction_DIRECT_KICK, state.Team_BLUE))
+		actions = append(actions, e.createNextCommandContinueAction(ContinueAction_INDIRECT_KICK, state.Team_YELLOW))
+		actions = append(actions, e.createNextCommandContinueAction(ContinueAction_INDIRECT_KICK, state.Team_BLUE))
 	}
 	return actions, hints
 }
@@ -392,11 +396,11 @@ func suggestEndOfMatch(currentState *state.State) bool {
 		return goalsY != goalsB
 	}
 
-       // 国赛规则：一队进球数达到10且领先对方1球及以上，比赛立即结束
-       if *currentState.Stage != state.Referee_POST_GAME &&
-	       ((goalsY >= 10 && goalsY - goalsB >= 1) || (goalsB >= 10 && goalsB - goalsY >= 1)) {
-	       return true
-       }
+	// 国赛规则：一队进球数达到10且领先对方1球及以上，比赛立即结束
+	if *currentState.Stage != state.Referee_POST_GAME &&
+		((goalsY >= 10 && goalsY-goalsB >= 1) || (goalsB >= 10 && goalsB-goalsY >= 1)) {
+		return true
+	}
 
 	if *currentState.Stage == state.Referee_NORMAL_SECOND_HALF ||
 		*currentState.Stage == state.Referee_EXTRA_SECOND_HALF {

@@ -127,7 +127,7 @@ func (s *BallPlacementPosDeterminer) Location() *geom.Vector2 {
 		state.GameEvent_UNSPORTING_BEHAVIOR_MAJOR:
 		return s.keepCurrentPlacementPos()
 	case state.GameEvent_EXCESSIVE_BOT_SUBSTITUTION:
-		if s.State.NextCommand != nil && *s.State.NextCommand.Type != state.Command_DIRECT {
+		if s.State.NextCommand != nil && *s.State.NextCommand.Type != state.Command_DIRECT && *s.State.NextCommand.Type != state.Command_INDIRECT {
 			// if next command is not a free kick, keep current placement pos.
 			// next command is not changed if it was free kick or penalty kick.
 			return s.keepCurrentPlacementPos()
