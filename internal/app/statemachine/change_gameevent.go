@@ -385,6 +385,11 @@ func (s *StateMachine) nextCommandForEvent(newState *state.State, gameEvent *sta
 			newState.NextCommand,
 			state.NewCommand(state.Command_PENALTY, gameEvent.ByTeam().Opposite()),
 		)
+	case state.GameEvent_DEFENDER_IN_DEFENSE_AREA_PARTIALLY:
+		return lastCommandOnUnknownTeam(
+			newState.NextCommand,
+			state.NewCommand(state.Command_DIRECT, gameEvent.ByTeam().Opposite()),
+		)
 	case state.GameEvent_GOAL:
 		return lastCommandOnUnknownTeam(
 			newState.NextCommand,
@@ -467,7 +472,8 @@ func addsYellowCard(gameEvent state.GameEvent_Type) bool {
 	case
 		state.GameEvent_MULTIPLE_FOULS,
 		state.GameEvent_EMERGENCY_STOP,
-		state.GameEvent_UNSPORTING_BEHAVIOR_MINOR:
+		state.GameEvent_UNSPORTING_BEHAVIOR_MINOR,
+		state.GameEvent_DEFENDER_IN_DEFENSE_AREA_PARTIALLY:
 		return true
 	}
 	return false
@@ -495,6 +501,7 @@ func stopsTheGame(gameEvent state.GameEvent_Type) bool {
 		// stopping fouls
 		state.GameEvent_ATTACKER_TOO_CLOSE_TO_DEFENSE_AREA,
 		state.GameEvent_DEFENDER_IN_DEFENSE_AREA,
+		state.GameEvent_DEFENDER_IN_DEFENSE_AREA_PARTIALLY,
 		state.GameEvent_BOUNDARY_CROSSING,
 		state.GameEvent_KEEPER_HELD_BALL,
 		state.GameEvent_BOT_DRIBBLED_BALL_TOO_FAR,

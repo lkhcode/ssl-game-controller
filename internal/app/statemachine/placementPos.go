@@ -1,11 +1,12 @@
 package statemachine
 
 import (
+	"log"
+	"math"
+
 	"github.com/RoboCup-SSL/ssl-game-controller/internal/app/config"
 	"github.com/RoboCup-SSL/ssl-game-controller/internal/app/geom"
 	"github.com/RoboCup-SSL/ssl-game-controller/internal/app/state"
-	"log"
-	"math"
 )
 
 type BallPlacementPosDeterminer struct {
@@ -53,6 +54,8 @@ func (s *BallPlacementPosDeterminer) Location() *geom.Vector2 {
 	case state.GameEvent_DEFENDER_IN_DEFENSE_AREA:
 		teamInFavor := s.Event.ByTeam().Opposite()
 		return s.penaltyKick(teamInFavor)
+	case state.GameEvent_DEFENDER_IN_DEFENSE_AREA_PARTIALLY:
+		return s.validateLocation(s.Event.GetDefenderInDefenseAreaPartially().BallLocation)
 	case state.GameEvent_BOUNDARY_CROSSING:
 		return s.validateLocation(s.Event.GetBoundaryCrossing().Location)
 	case state.GameEvent_KEEPER_HELD_BALL:

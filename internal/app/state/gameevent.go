@@ -55,6 +55,7 @@ func GameEventsForBehaviorConfig() (a []GameEvent_Type) {
 			GameEvent_AIMLESS_KICK,
 			GameEvent_ATTACKER_TOO_CLOSE_TO_DEFENSE_AREA,
 			GameEvent_DEFENDER_IN_DEFENSE_AREA,
+			GameEvent_DEFENDER_IN_DEFENSE_AREA_PARTIALLY,
 			GameEvent_BOUNDARY_CROSSING,
 			GameEvent_KEEPER_HELD_BALL,
 			GameEvent_BOT_DRIBBLED_BALL_TOO_FAR,

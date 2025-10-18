@@ -14,6 +14,7 @@ import GameEventBotKickedBallTooFastInput from "@/components/game-events/GameEve
 import GameEventAttackerTooCloseToDefenseAreaInput
   from "@/components/game-events/GameEventAttackerTooCloseToDefenseAreaInput.vue";
 import GameEventDefenderInDefenseAreaInput from "@/components/game-events/GameEventDefenderInDefenseAreaInput.vue";
+import GameEventDefenderInDefenseAreaPartiallyInput from "@/components/game-events/GameEventDefenderInDefenseAreaPartiallyInput.vue";
 import GameEventBotTooFastInStopInput from "@/components/game-events/GameEventBotTooFastInStopInput.vue";
 import GameEventDefenderTooCloseToKickPointInput
   from "@/components/game-events/GameEventDefenderTooCloseToKickPointInput.vue";
@@ -33,6 +34,7 @@ const components = new Map<GameEvent_TypeJson, any>([
   ['BOT_KICKED_BALL_TOO_FAST', GameEventBotKickedBallTooFastInput],
   ['ATTACKER_TOO_CLOSE_TO_DEFENSE_AREA', GameEventAttackerTooCloseToDefenseAreaInput],
   ['DEFENDER_IN_DEFENSE_AREA', GameEventDefenderInDefenseAreaInput],
+  ['DEFENDER_IN_DEFENSE_AREA_PARTIALLY', GameEventDefenderInDefenseAreaPartiallyInput],
   ['BOT_TOO_FAST_IN_STOP', GameEventBotTooFastInStopInput],
   ['DEFENDER_TOO_CLOSE_TO_KICK_POINT', GameEventDefenderTooCloseToKickPointInput],
   ['BOT_INTERFERED_PLACEMENT', GameEventBotInterferedPlacementInput],

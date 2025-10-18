@@ -1,10 +1,11 @@
 package statemachine
 
 import (
+	"time"
+
 	"github.com/RoboCup-SSL/ssl-game-controller/internal/app/geom"
 	"github.com/RoboCup-SSL/ssl-game-controller/internal/app/state"
 	"github.com/google/uuid"
-	"time"
 )
 
 const similarLocationTolerance = 0.5
@@ -91,6 +92,9 @@ func gameEventsSimilar(e1, e2 *state.GameEvent) bool {
 	case state.GameEvent_DEFENDER_IN_DEFENSE_AREA:
 		return similarTeam(e1.GetDefenderInDefenseArea().ByTeam, e2.GetDefenderInDefenseArea().ByTeam) &&
 			similarBot(e1.GetDefenderInDefenseArea().ByBot, e2.GetDefenderInDefenseArea().ByBot)
+	case state.GameEvent_DEFENDER_IN_DEFENSE_AREA_PARTIALLY:
+		return similarTeam(e1.GetDefenderInDefenseAreaPartially().ByTeam, e2.GetDefenderInDefenseAreaPartially().ByTeam) &&
+			similarBot(e1.GetDefenderInDefenseAreaPartially().ByBot, e2.GetDefenderInDefenseAreaPartially().ByBot)
 	case state.GameEvent_ATTACKER_TOUCHED_BALL_IN_DEFENSE_AREA:
 		return similarTeam(e1.GetAttackerTouchedBallInDefenseArea().ByTeam, e2.GetAttackerTouchedBallInDefenseArea().ByTeam) &&
 			similarBot(e1.GetAttackerTouchedBallInDefenseArea().ByBot, e2.GetAttackerTouchedBallInDefenseArea().ByBot)
