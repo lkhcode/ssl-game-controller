@@ -2,13 +2,14 @@ package statemachine
 
 import (
 	"fmt"
+	"log"
+	"time"
+
 	"github.com/RoboCup-SSL/ssl-game-controller/internal/app/geom"
 	"github.com/RoboCup-SSL/ssl-game-controller/internal/app/state"
 	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/types/known/durationpb"
 	"google.golang.org/protobuf/types/known/timestamppb"
-	"log"
-	"time"
 )
 
 func (s *StateMachine) processChangeAddGameEvent(newState *state.State, change *Change_AddGameEvent) (changes []*Change) {
@@ -193,7 +194,7 @@ func (s *StateMachine) processChangeAddGameEvent(newState *state.State, change *
 
 		if *newState.Division == state.Division_DIV_A && ballLeftField(newState) {
 			newState.NextCommand = state.NewCommand(state.Command_DIRECT, byTeam.Opposite())
-		}	//当球出边线时，对手获得直接任意球
+		} //当球出边线时，对手获得直接任意球
 	}
 
 	// ball placement succeeded
@@ -371,6 +372,7 @@ func (s *StateMachine) nextCommandForEvent(newState *state.State, gameEvent *sta
 		state.GameEvent_KEEPER_HELD_BALL,
 		state.GameEvent_BOUNDARY_CROSSING,
 		state.GameEvent_BOT_DRIBBLED_BALL_TOO_FAR,
+		state.GameEvent_BOT_KICKED_BALL_TOO_FAST,
 		state.GameEvent_ATTACKER_DOUBLE_TOUCHED_BALL:
 		return lastCommandOnUnknownTeam(
 			newState.NextCommand,
@@ -495,9 +497,9 @@ func stopsTheGame(gameEvent state.GameEvent_Type) bool {
 		state.GameEvent_KEEPER_HELD_BALL,
 		state.GameEvent_BOT_DRIBBLED_BALL_TOO_FAR,
 		state.GameEvent_ATTACKER_TOUCHED_BALL_IN_DEFENSE_AREA, // 新增：国赛规则下应中断比赛
-		state.GameEvent_BOT_KICKED_BALL_TOO_FAST, // 新增：国赛规则下应中断比赛
-		state.GameEvent_BOT_CRASH_UNIQUE, // 新增：国赛规则下应中断比赛
-		state.GameEvent_BOT_CRASH_DRAWN, // 新增：国赛规则下应中断比赛
+		state.GameEvent_BOT_KICKED_BALL_TOO_FAST,              // 新增：国赛规则下应中断比赛
+		state.GameEvent_BOT_CRASH_UNIQUE,                      // 新增：国赛规则下应中断比赛
+		state.GameEvent_BOT_CRASH_DRAWN,                       // 新增：国赛规则下应中断比赛
 		// manual fouls
 		state.GameEvent_BOT_PUSHED_BOT,
 		state.GameEvent_BOT_HELD_BALL_DELIBERATELY,
