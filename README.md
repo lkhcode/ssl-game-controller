@@ -1,15 +1,56 @@
 [![CircleCI](https://circleci.com/gh/Robocup-ssl-China/ssl-game-controller/tree/master.svg?style=svg)](https://circleci.com/gh/RoboCup-SSL/ssl-game-controller/tree/master)
 [![Go Report Card](https://goreportcard.com/badge/github.com/Robocup-ssl-China/ssl-game-controller?style=flat-square)](https://goreportcard.com/report/github.com/Robocup-ssl-China/ssl-game-controller)
 [![Go Doc](https://img.shields.io/badge/godoc-reference-blue.svg?style=flat-square)](https://godoc.org/github.com/Robocup-ssl-China/ssl-game-controller)
-[![Release](https://img.shields.io/github/release/Robocup-ssl-China/ssl-game-controller.svg?style=flat-square)](https://github.com/Robocup-ssl-China/ssl-game-controller/releases/latest)
+[![Release](https://img.shields.io/github/release/Robocup-ssl-China/ssl-game-controller.svg?style=flat-square)](https://github.com/lkhcode/ssl-game-controller/releases/latest)
 [![Coverage](https://img.shields.io/badge/coverage-report-blue.svg)](https://circleci.com/api/v1.1/project/github/Robocup-ssl-China/ssl-game-controller/latest/artifacts/0/coverage?branch=master)
 
 # ssl-game-controller
 
-这是一个专门为 RoboCup 小型组（RoboCup SSL）开发的比赛控制系统。该系统在 2019 年的 RoboCup 比赛中首次投入使用，旨在替代原有的 [ssl-refbox](https://github.com/RoboCup-SSL/ssl-refbox) 裁判盒
+本项目Fork自[Robocup-SSL的ssl-game-controller](https://github.com/RoboCup-SSL/ssl-game-controller)，基于Robocup世界杯的裁判盒，针对[Robocup世界杯中国公开赛](http://crc.drct-caa.org.cn/static/kindeditor/attached/file/20250207/20250207014751_79139.pdf)与[浙江省大学生机器人竞赛足球机器人赛项](https://oss.moocollege.com/27757/edit/HIZ0s6JS_1742376586041.pdf)的比赛规则进行了修改与适配
 
-![Screenshot of Interface](./doc/screenshot_interface.png)
+![Screenshot of Interface 1](./doc/screenshot_interface_zh_cn_2.png)
 
+# 与官方裁判盒的差异
+
+1. 对软件的操作界面进行了汉化
+- 对于裁判盒UI的各种按钮，command指令，犯规，违例，进行了汉化
+- 对于裁判盒中，发出指令的各种按钮，保留了中英双字，如`INDIRECT KICK 间接任意球`,`KICK OFF 开球`等
+- 裁判盒中的翻译大多参照国赛与省赛中的定义，其余部分使用了豆包进行翻译
+
+2. 在国际赛中，间接任意球被删去，只留下了`DIRECT KICK(即FREE KICK 任意球)`，本项目重新启用了proto中被弃用的INDRECT部分，并修改了部分协议，不过协议的修改不会影响队伍的rocos的裁判盒指令接收
+
+3. 发生以下事件，比赛恢暂停，但下一指令由直接任意球变为间接任意球
+- 边线球 `BALL_LEFT_FIELD_TOUCH_LINE`
+- 无意义射门 `AIMLESS_KICK`
+- 守门员持球 `KEEPER_HELD_BALL`
+- 进攻方在禁区内触球 `BOUNDARY_CROSSING`
+- 带球过度 `BOT_DRIBBLED_BALL_TOO_FAR`
+- 二次触球 `ATTACKER_DOUBLE_TOUCHED_BALL`
+
+4. 以下事件由不停止比赛，只记录违例，变为暂停比赛，用间接任意球恢复比赛
+- 进攻方在禁区内触球 `BOUNDARY_CROSSING`
+- 球速过快 `BOT_KICKED_BALL_TOO_FAST`
+
+5. 以下事件由不停止比赛，只记录违例，变为暂停比赛，用直接任意球恢复比赛
+- 机器人碰撞（一方全责） `BOT_CRASH_DRAWN`
+- 机器人碰撞（互相碰撞）`BOT_CRASH_UNIQUE`
+
+6. 裁判指令现在可以发出Indirect Free kick，自动裁判部分也增加了使用间接任意球恢复比赛的选项
+
+7. 恢复`部分进入禁区触球 DEFENDER_IN_DEFENSE_AREA_PARTIALLY`的定义，在国际赛中，只保留了进入己方禁区触球，给一次点球
+- `部分进入己方禁区触球 DEFENDER_IN_DEFENSE_AREA_PARTIALLY`，停止比赛，给对方直接任意球，给一张黄牌
+- `完全进入己方禁区触球 DEFENDER_IN_DEFENSE_AREA`，停止比赛，点球一次
+- tips:部分进入己方禁区触球，需要autoref配合检测，我不确定TIGERS的AutoReferee有没有保留这个事件的检测，但是你可以在GC里面手动添加该事件
+
+8. 以下内容是国际赛的部分，但是不影响使用，没有删除
+- 挑战旗
+- 紧急暂停
+- 机器人更换次数限制
+- 机器人外壳颜色
+
+9. 在Makeflile里面新增了一条指令，'make build'，方便进行编译，并对Makefile增加了对Windows平台的支持
+
+> 本程序还没有经过大量测试，可能存在bug，如果您发现了裁判盒的bug，请提交ISSUE给我，也可以提交PR参与开发
 ## 添加您的队伍
 
 如果您是新队伍，或者您没有在列表中找到您的队伍名称，请在 [internal/app/engine/config.go](internal/app/engine/config.go) 中添加您的队伍名称。
@@ -18,20 +59,6 @@
 
 如果您只是想使用本应用程序，只需从[Release](https://github.com/Robocup-ssl-China/ssl-game-controller/releases/latest)下载最新的发布版本即可。该二进制文件是独立的，无需其他依赖。
 
-您也可以使用预构建的 Docker 镜像(此方法仅适用于原版的GC)：
-
-```shell script
-docker pull robocupssl/ssl-game-controller
-# 使用默认配置运行GC
-docker run -p 8081:8081 robocupssl/ssl-game-controller -address :8081
-# 挂载本地目录
-docker run -p 8081:8081 \
-  # 本地配置目录
-  -v "$(pwd)"/config:/config \
-  # 本地数据目录（当前状态）
-  -v "$(pwd)"/data:/data \
-  robocupssl/ssl-game-controller
-```
 
 GC在首次启动时会在 [config/](./config/) 目录下生成默认配置。之后，您可以在那里修改所有设置。
 
@@ -40,7 +67,7 @@ GC在首次启动时会在 [config/](./config/) 目录下生成默认配置。�
 ### 运行环境要求
 
 * 无软件依赖（开发除外，见下文）
-* 预构建二进制文件支持(原版)：64位 Linux、Windows、OSX
+* 预构建二进制文件支持(原版)：64位 Linux、Windows
 * 现代浏览器（主要在 Chrome 上测试）
 
 ### 外部运行依赖
@@ -159,17 +186,15 @@ make install
 go run cmd/ssl-game-controller/main.go
 ```
 
-### 与Autorefs联合使用
-
-要快速运行GC并集成Autorefs及其他常用组件，请执行：
+## 生成二进制文件(Windows/Linux)
 
 ```bash
-docker compose up
+make build
 ```
 
 ### 更新协议缓冲区生成的代码
 
-如果您修改了任何 `.proto` 文件，需要重新生成代码：
+如果您修改了任何 `.proto` 文件，需要重新生成代码(需要安装buf)：
 
 ```bash
 make proto
