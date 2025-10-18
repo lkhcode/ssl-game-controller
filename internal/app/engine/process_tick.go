@@ -49,7 +49,7 @@ func (e *Engine) processTick() {
 
 	if goDur(e.currentState.CurrentActionTimeRemaining) < 0 {
 		switch *e.currentState.GameState.Type {
-		case state.GameState_KICKOFF, state.GameState_FREE_KICK:
+		case state.GameState_KICKOFF, state.GameState_FREE_KICK, state.GameState_DIRECT, state.GameState_INDIRECT:
 			revertible := false
 			e.Enqueue(&statemachine.Change{
 				Origin:     &changeOriginEngine,
