@@ -25,6 +25,7 @@ import CommandButton from "@/components/control/CommandButton.vue";
   <div class="row">
     <div class="col-grow column" v-for="team in teams" :key="team">
       <CommandButton :type="'DIRECT'" :team="team"/>
+      <CommandButton :type="'INDIRECT'" :team="team"/>
       <CommandButton :type="'KICKOFF'" :team="team"/>
       <CommandButton :type="'PENALTY'" :team="team"/>
       <q-separator spaced/>
