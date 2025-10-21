@@ -98,6 +98,12 @@ func gameEventsSimilar(e1, e2 *state.GameEvent) bool {
 	case state.GameEvent_ATTACKER_TOUCHED_BALL_IN_DEFENSE_AREA:
 		return similarTeam(e1.GetAttackerTouchedBallInDefenseArea().ByTeam, e2.GetAttackerTouchedBallInDefenseArea().ByTeam) &&
 			similarBot(e1.GetAttackerTouchedBallInDefenseArea().ByBot, e2.GetAttackerTouchedBallInDefenseArea().ByBot)
+	case state.GameEvent_ATTACKER_TOUCHED_OPPONENT_IN_DEFENSE_AREA:
+		return similarTeam(e1.GetAttackerTouchedOpponentInDefenseArea().ByTeam, e2.GetAttackerTouchedOpponentInDefenseArea().ByTeam) &&
+			similarBot(e1.GetAttackerTouchedOpponentInDefenseArea().ByBot, e2.GetAttackerTouchedOpponentInDefenseArea().ByBot)
+	case state.GameEvent_ATTACKER_TOUCHED_OPPONENT_IN_DEFENSE_AREA_SKIPPED:
+		return similarTeam(e1.GetAttackerTouchedOpponentInDefenseAreaSkipped().ByTeam, e2.GetAttackerTouchedOpponentInDefenseAreaSkipped().ByTeam) &&
+			similarBot(e1.GetAttackerTouchedOpponentInDefenseAreaSkipped().ByBot, e2.GetAttackerTouchedOpponentInDefenseAreaSkipped().ByBot)
 	case state.GameEvent_BOT_KICKED_BALL_TOO_FAST:
 		return similarTeam(e1.GetBotKickedBallTooFast().ByTeam, e2.GetBotKickedBallTooFast().ByTeam)
 	case state.GameEvent_BOT_DRIBBLED_BALL_TOO_FAR:
