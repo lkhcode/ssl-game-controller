@@ -350,7 +350,7 @@ func (s *StateMachine) nextCommandForEvent(newState *state.State, gameEvent *sta
 	}
 	switch *gameEvent.Type {
 	case state.GameEvent_BALL_LEFT_FIELD_GOAL_LINE,
-		// state.GameEvent_BALL_LEFT_FIELD_TOUCH_LINE,//INDIRECT
+		state.GameEvent_BALL_LEFT_FIELD_TOUCH_LINE,
 		// state.GameEvent_AIMLESS_KICK,//INDIRECT
 		state.GameEvent_ATTACKER_TOO_CLOSE_TO_DEFENSE_AREA,
 		state.GameEvent_BOT_PUSHED_BOT,
@@ -358,7 +358,7 @@ func (s *StateMachine) nextCommandForEvent(newState *state.State, gameEvent *sta
 		state.GameEvent_BOT_TIPPED_OVER,
 		state.GameEvent_BOT_DROPPED_PARTS,
 		// state.GameEvent_KEEPER_HELD_BALL,//INDIRECT
-		// state.GameEvent_BOUNDARY_CROSSING,//INDIRECT
+		state.GameEvent_BOUNDARY_CROSSING,
 		// state.GameEvent_BOT_DRIBBLED_BALL_TOO_FAR,//INDIRECT
 		// state.GameEvent_ATTACKER_DOUBLE_TOUCHED_BALL,//INDIRECT
 		state.GameEvent_BOT_CRASH_DRAWN,  //原来不暂停
@@ -369,12 +369,11 @@ func (s *StateMachine) nextCommandForEvent(newState *state.State, gameEvent *sta
 			newState.NextCommand,
 			state.NewCommand(state.Command_DIRECT, gameEvent.ByTeam().Opposite()),
 		)
-	case state.GameEvent_BALL_LEFT_FIELD_TOUCH_LINE,
-		state.GameEvent_AIMLESS_KICK,
+	case state.GameEvent_AIMLESS_KICK,
 		state.GameEvent_KEEPER_HELD_BALL,
-		state.GameEvent_BOUNDARY_CROSSING,
 		state.GameEvent_BOT_DRIBBLED_BALL_TOO_FAR,
 		state.GameEvent_BOT_KICKED_BALL_TOO_FAST,
+		state.GameEvent_ATTACKER_TOUCHED_OPPONENT_IN_DEFENSE_AREA,
 		state.GameEvent_ATTACKER_DOUBLE_TOUCHED_BALL:
 		return lastCommandOnUnknownTeam(
 			newState.NextCommand,
@@ -509,6 +508,7 @@ func stopsTheGame(gameEvent state.GameEvent_Type) bool {
 		state.GameEvent_BOT_KICKED_BALL_TOO_FAST,              // 新增：国赛规则下应中断比赛
 		state.GameEvent_BOT_CRASH_UNIQUE,                      // 新增：国赛规则下应中断比赛
 		state.GameEvent_BOT_CRASH_DRAWN,                       // 新增：国赛规则下应中断比赛
+		state.GameEvent_ATTACKER_TOUCHED_OPPONENT_IN_DEFENSE_AREA,
 		// manual fouls
 		state.GameEvent_BOT_PUSHED_BOT,
 		state.GameEvent_BOT_HELD_BALL_DELIBERATELY,
@@ -546,7 +546,8 @@ func isRuleViolationDuringPenalty(gameEvent state.GameEvent_Type) bool {
 
 func isNonStoppingFoul(gameEvent state.GameEvent_Type) bool {
 	switch gameEvent {
-	case state.GameEvent_ATTACKER_TOUCHED_BALL_IN_DEFENSE_AREA:
+	case state.GameEvent_ATTACKER_TOUCHED_OPPONENT_IN_DEFENSE_AREA_SKIPPED:
+		// case state.GameEvent_ATTACKER_TOUCHED_BALL_IN_DEFENSE_AREA:
 		// state.GameEvent_BOT_KICKED_BALL_TOO_FAST,  // 移除：国赛规则下应为停止犯规
 		// state.GameEvent_BOT_CRASH_UNIQUE,  // 移除：国赛规则下应为停止犯规
 		// state.GameEvent_BOT_CRASH_DRAWN: // 移除：国赛规则下应为停止犯规
@@ -562,6 +563,8 @@ func locationForRuleViolation(gameEvent *state.GameEvent) *geom.Vector2 {
 		return gameEvent.GetBotDribbledBallTooFar().Start
 	} else if gameEvent.GetAttackerTouchedBallInDefenseArea() != nil {
 		return gameEvent.GetAttackerTouchedBallInDefenseArea().Location
+	} else if gameEvent.GetAttackerTouchedOpponentInDefenseArea() != nil {
+		return gameEvent.GetAttackerTouchedOpponentInDefenseArea().Location
 	} else if gameEvent.GetBotKickedBallTooFast() != nil {
 		return gameEvent.GetBotKickedBallTooFast().Location
 	} else if gameEvent.GetBotCrashUnique() != nil {

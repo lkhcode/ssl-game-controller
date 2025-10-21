@@ -1,9 +1,10 @@
 package statemachine
 
 import (
+	"log"
+
 	"github.com/RoboCup-SSL/ssl-game-controller/internal/app/state"
 	"google.golang.org/protobuf/proto"
-	"log"
 )
 
 func (s *StateMachine) processChangeAcceptProposals(newState *state.State, change *Change_AcceptProposalGroup) (changes []*Change) {
