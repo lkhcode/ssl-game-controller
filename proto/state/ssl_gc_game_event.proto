@@ -98,9 +98,9 @@ message GameEvent {
         // obsolete
         KickTimeout kick_timeout = 12 [deprecated = true];
         // rule removed
-        AttackerTouchedOpponentInDefenseArea attacker_touched_opponent_in_defense_area = 16 [deprecated = true];
+        AttackerTouchedOpponentInDefenseArea attacker_touched_opponent_in_defense_area = 16;
         // obsolete
-        AttackerTouchedOpponentInDefenseArea attacker_touched_opponent_in_defense_area_skipped = 42 [deprecated = true];
+        AttackerTouchedOpponentInDefenseArea attacker_touched_opponent_in_defense_area_skipped = 42;
         // obsolete
         BotCrashUnique bot_crash_unique_skipped = 23 [deprecated = true];
         // can not be used as long as autoRefs do not judge pushing
@@ -584,8 +584,8 @@ message GameEvent {
         INDIRECT_GOAL = 9;
         CHIPPED_GOAL = 10 [deprecated = true];
         KICK_TIMEOUT = 12 [deprecated = true];
-        ATTACKER_TOUCHED_OPPONENT_IN_DEFENSE_AREA = 16 [deprecated = true];
-        ATTACKER_TOUCHED_OPPONENT_IN_DEFENSE_AREA_SKIPPED = 40 [deprecated = true];
+        ATTACKER_TOUCHED_OPPONENT_IN_DEFENSE_AREA = 16;
+        ATTACKER_TOUCHED_OPPONENT_IN_DEFENSE_AREA_SKIPPED = 40;
         BOT_CRASH_UNIQUE_SKIPPED = 23 [deprecated = true];
         BOT_PUSHED_BOT_SKIPPED = 25 [deprecated = true];
         DEFENDER_IN_DEFENSE_AREA_PARTIALLY = 30;    //部分进入禁区触球
