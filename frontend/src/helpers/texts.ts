@@ -100,19 +100,21 @@ export const gameEventNames = new Map<GameEvent_TypeJson, string>([
   ['ATTACKER_TOO_CLOSE_TO_DEFENSE_AREA', "机器人到对方禁区距离过短"],
   ['DEFENDER_IN_DEFENSE_AREA', "非守门员完全进入己方禁区内触球"],
   ['DEFENDER_IN_DEFENSE_AREA_PARTIALLY', "非守门员部分进入己方禁区内触球"],
-  ['BOUNDARY_CROSSING', "界外球"],
-  ['KEEPER_HELD_BALL', "守门员违规持球"],
+  ['BOUNDARY_CROSSING', "机器人将球踢出场外"],
+  ['KEEPER_HELD_BALL', "守门员清球超时"],
   ['BOT_DRIBBLED_BALL_TOO_FAR', "带球过度"],
   ['BOT_PUSHED_BOT', "机器人推挤"],
-  ['BOT_HELD_BALL_DELIBERATELY', "机器人故意持球"],
+  ['BOT_HELD_BALL_DELIBERATELY', "机器人护球"],
   ['BOT_TIPPED_OVER', "机器人翻倒"],
   ['BOT_DROPPED_PARTS', "机器人掉落零件"],
   ['ATTACKER_TOUCHED_BALL_IN_DEFENSE_AREA', "机器人在对方禁区内触球"],
+  ['ATTACKER_TOUCHED_OPPONENT_IN_DEFENSE_AREA', "机器人在对方禁区内触碰对方机器人"],
+  ['ATTACKER_TOUCHED_OPPONENT_IN_DEFENSE_AREA_SKIPPED', "机器人在对方禁区内触碰对方机器人 (忽略)"],
   ['BOT_KICKED_BALL_TOO_FAST', "球速过快"],
   ['BOT_CRASH_UNIQUE', "机器人碰撞"],
   ['BOT_CRASH_DRAWN', "机器人相互碰撞"],
-  ['DEFENDER_TOO_CLOSE_TO_KICK_POINT', "机器人离球过近"],
-  ['BOT_TOO_FAST_IN_STOP', "机器人在停止状态超速"],
+  ['DEFENDER_TOO_CLOSE_TO_KICK_POINT', "机器人离开球点过近"],
+  ['BOT_TOO_FAST_IN_STOP', "机器人在停止阶段超速"],
   ['BOT_INTERFERED_PLACEMENT', "机器人干扰放球"],
   ['POSSIBLE_GOAL', "待确认的进球"],
   ['GOAL', "进球有效"],
@@ -122,13 +124,13 @@ export const gameEventNames = new Map<GameEvent_TypeJson, string>([
   ['PENALTY_KICK_FAILED', "点球失败"],
   ['NO_PROGRESS_IN_GAME', "僵持状态"],
   ['PLACEMENT_FAILED', "放球失败"],
-  ['MULTIPLE_CARDS', "多次受牌"],
-  ['MULTIPLE_FOULS', "多次犯规"],
+  ['MULTIPLE_CARDS', "因多次受牌获得红牌"],
+  ['MULTIPLE_FOULS', "因多次犯规获得黄牌"],
   ['BOT_SUBSTITUTION', "机器人更换"],
-  ['EXCESSIVE_BOT_SUBSTITUTION', "多次更换机器人"],
+  ['EXCESSIVE_BOT_SUBSTITUTION', "更换机器人次数过多"],
   ['TOO_MANY_ROBOTS', "场上存在过多机器人"],
   ['CHALLENGE_FLAG', "提出异议"],
-  ['CHALLENGE_FLAG_HANDLED', "异议已处理"],
+  ['CHALLENGE_FLAG_HANDLED', "异议已受理"],
   ['EMERGENCY_STOP', "紧急停止"],
   ['UNSPORTING_BEHAVIOR_MINOR', "违反体育精神的行为(轻微)"],
   ['UNSPORTING_BEHAVIOR_MAJOR', "违反体育精神的行为(严重)"],
@@ -199,7 +201,7 @@ export function continueActionLabel(type: ContinueAction_TypeJson, nextCommand?:
     case 'CHALLENGE_REJECT':
       return 'Reject Challenge 反对异议'
     case 'TYPE_UNKNOWN':
-      return '指令异常'
+      return '无法识别的指令'
   }
   return '指令异常'
 }
