@@ -72,11 +72,19 @@ func (s *BallPlacementPosDeterminer) Location() *geom.Vector2 {
 	case state.GameEvent_BOT_DROPPED_PARTS:
 		return s.validateLocation(s.Event.GetBotDroppedParts().BallLocation)
 
-	// Non-Stopping Fouls
-	case state.GameEvent_BOT_KICKED_BALL_TOO_FAST,
-		state.GameEvent_ATTACKER_TOUCHED_BALL_IN_DEFENSE_AREA,
-		state.GameEvent_BOT_CRASH_UNIQUE,
-		state.GameEvent_BOT_CRASH_DRAWN:
+	case state.GameEvent_BOT_KICKED_BALL_TOO_FAST:
+		return s.validateLocation(s.Event.GetBotKickedBallTooFast().Location)
+	case state.GameEvent_ATTACKER_TOUCHED_BALL_IN_DEFENSE_AREA:
+		return s.validateLocation(s.Event.GetAttackerTouchedBallInDefenseArea().Location)
+	case state.GameEvent_BOT_CRASH_UNIQUE:
+		return s.validateLocation(s.Event.GetBotCrashUnique().Location)
+	case state.GameEvent_BOT_CRASH_DRAWN:
+		return s.validateLocation(s.Event.GetBotCrashDrawn().Location)
+	case state.GameEvent_ATTACKER_TOUCHED_OPPONENT_IN_DEFENSE_AREA:
+		return s.validateLocation(s.Event.GetAttackerTouchedOpponentInDefenseArea().Location)
+
+	// Non-stopping fouls
+	case state.GameEvent_ATTACKER_TOUCHED_OPPONENT_IN_DEFENSE_AREA_SKIPPED:
 		return s.keepCurrentPlacementPos()
 
 	// Fouls while ball out of play
