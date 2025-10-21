@@ -1,7 +1,7 @@
 [![CircleCI](https://circleci.com/gh/Robocup-ssl-China/ssl-game-controller/tree/master.svg?style=svg)](https://circleci.com/gh/RoboCup-SSL/ssl-game-controller/tree/master)
 [![Go Report Card](https://goreportcard.com/badge/github.com/Robocup-ssl-China/ssl-game-controller?style=flat-square)](https://goreportcard.com/report/github.com/Robocup-ssl-China/ssl-game-controller)
 [![Go Doc](https://img.shields.io/badge/godoc-reference-blue.svg?style=flat-square)](https://godoc.org/github.com/Robocup-ssl-China/ssl-game-controller)
-[![Release](https://img.shields.io/github/release/Robocup-ssl-China/ssl-game-controller.svg?style=flat-square)](https://github.com/lkhcode/ssl-game-controller/releases/latest)
+[![Release](https://img.shields.io/github/release/lkhcode/ssl-game-controller.svg?style=flat-square)](https://github.com/lkhcode/ssl-game-controller/releases/latest)
 [![Coverage](https://img.shields.io/badge/coverage-report-blue.svg)](https://circleci.com/api/v1.1/project/github/Robocup-ssl-China/ssl-game-controller/latest/artifacts/0/coverage?branch=master)
 
 # ssl-game-controller
@@ -17,30 +17,42 @@
 - 对于裁判盒中，发出指令的各种按钮，保留了中英双字，如`INDIRECT KICK 间接任意球`,`KICK OFF 开球`等
 - 裁判盒中的翻译大多参照国赛与省赛中的定义，其余部分使用了豆包进行翻译
 
-2. 在国际赛中，间接任意球被删去，只留下了`DIRECT KICK(即FREE KICK 任意球)`，本项目重新启用了proto中被弃用的INDRECT部分，并修改了部分协议，不过协议的修改不会影响队伍的rocos的裁判盒指令接收
+2. 在国际赛中，间接任意球被删去，只留下了`DIRECT KICK(即FREE KICK 任意球)`，本项目重新启用了proto中被弃用的INDRECT部分，并修改了部分协议，不过协议的修改不会影响队伍的rocos的裁判盒指令接收，重新启用的协议如下：
+- 间接任意球 `INDIRECT_FREE_KICK`
+- 机器人在对方禁区内触碰对方机器人 `ATTACKER_TOUCHED_OPPONENT_IN_DEFENSE_AREA`
+- 机器人在对方禁区内触碰对方机器人 (忽略) `ATTACKER_TOUCHED_OPPONENT_IN_DEFENSE_AREA_SKIPPED`
+- 非守门员部分进入己方禁区内触球 `DEFENDER_IN_DEFENSE_AREA_PARTIALLY`
 
-3. 发生以下事件，比赛暂停，但下一指令由直接任意球变为间接任意球
-- 边线球 `BALL_LEFT_FIELD_TOUCH_LINE`
+3. 发生以下事件，比赛暂停，下一指令为直接任意球
+- 球从球门线出界 `BALL_LEFT_FIELD_GOAL_LINE`
+- 球从边线出界 `BALL_LEFT_FIELD_TOUCH_LINE`
+- 机器人到对方禁区距离过短 `ATTACKER_TOO_CLOSE_TO_DEFENSE_AREA`
+- 机器人推挤 `BOT_PUSHED_BOT`
+- 机器人护球 `BOT_HELD_BALL_DELIBERATELY`
+- 机器人翻倒 `BOT_TIPPED_OVER`
+- 机器人掉落零件 `BOT_DROPPED_PARTS`
+- 机器人将球踢出场外 `BOUNDARY_CROSSING`
+- 机器人相互碰撞 `BOT_CRASH_DRAWN`
+- 机器人碰撞 `BOT_CRASH_UNIQUE`
+- 点球失败 `PENALTY_KICK_FAILED`
+- 无效进球 `INVALID_GOAL`
+
+4. 发生以下事件，比赛暂停，下一指令为间接任意球
 - 无意义射门 `AIMLESS_KICK`
-- 守门员持球 `KEEPER_HELD_BALL`
-- 进攻方在禁区内触球 `BOUNDARY_CROSSING`
+- 守门员清球超时 `KEEPER_HELD_BALL`
 - 带球过度 `BOT_DRIBBLED_BALL_TOO_FAR`
 - 二次触球 `ATTACKER_DOUBLE_TOUCHED_BALL`
-
-4. 以下事件由不停止比赛，只记录违例，变为暂停比赛，用间接任意球恢复比赛
-- 进攻方在禁区内触球 `BOUNDARY_CROSSING`
+- 机器人在对方禁区内触碰对方机器人 `ATTACKER_TOUCHED_OPPONENT_IN_DEFENSE_AREA`
 - 球速过快 `BOT_KICKED_BALL_TOO_FAST`
 
-5. 以下事件由不停止比赛，只记录违例，变为暂停比赛，用直接任意球恢复比赛
-- 机器人碰撞（一方全责） `BOT_CRASH_DRAWN`
-- 机器人碰撞（互相碰撞）`BOT_CRASH_UNIQUE`
+5. 裁判指令现在可以发出Indirect Free kick，自动裁判部分也增加了使用间接任意球恢复比赛的选项
 
-6. 裁判指令现在可以发出Indirect Free kick，自动裁判部分也增加了使用间接任意球恢复比赛的选项
-
-7. 恢复`部分进入禁区触球 DEFENDER_IN_DEFENSE_AREA_PARTIALLY`的定义，在国际赛中，只保留了进入己方禁区触球，给一次点球
+6. 恢复`部分进入禁区触球 DEFENDER_IN_DEFENSE_AREA_PARTIALLY`的定义，在国际赛中，只保留了进入己方禁区触球，给一次点球
 - `部分进入己方禁区触球 DEFENDER_IN_DEFENSE_AREA_PARTIALLY`，停止比赛，给对方直接任意球，给一张黄牌
 - `完全进入己方禁区触球 DEFENDER_IN_DEFENSE_AREA`，停止比赛，点球一次
 - tips:部分进入己方禁区触球，需要autoref配合检测，我不确定TIGERS的AutoReferee有没有保留这个事件的检测，但是你可以在GC里面手动添加该事件
+
+7. 无意义射门(`AIMLESS_KICK`)在国际赛中，仅适用于B组，本项目关闭了在A组下，无意义射门事件强制转换成出界事件的功能
 
 8. 以下内容是国际赛的部分，但是不影响使用，没有删除
 - 挑战旗
@@ -96,32 +108,23 @@ GC在首次启动时会在 [config/](./config/) 目录下生成默认配置。�
 
 ### 在命令行运行ssl-game-controller可使用的参数
 
-  -address string
-        提供UI 和 API 服务的地址（默认为 "localhost:8081"）
+- `-address string`               提供UI 和 API 服务的地址（默认为 "localhost:8081"）
   
-  -backendOnly
-        仅运行后端，不启动 UI 和 API 服务
+- `-backendOnly`                  仅运行后端，不启动 UI 和 API 服务
   
-  -ciAddress string
-        提供 CI 连接服务的地址
+- `-ciAddress string`             提供 CI 连接服务的地址
   
-  -publishAddress string
-        发送裁判命令的地址（IP+端口）
+- `-publishAddress string`        发送裁判命令的地址（IP+端口）
   
-  -skipInterfaces string
-        接收多播数据包时要忽略的网络接口名称列表（用逗号分隔）
+- `-skipInterfaces string`        接收多播数据包时要忽略的网络接口名称列表（用逗号分隔）
   
-  -timeAcquisitionMode string
-        使用的时间获取模式（system：系统时间，ci：CI模式，vision：视觉系统时间）
+- `-timeAcquisitionMode string`   使用的时间获取模式（system：系统时间，ci：CI模式，vision：视觉系统时间）
   
-  -trackerAddress string
-        接收追踪源数据包的地址（IP+端口）
+- `-trackerAddress string`        接收追踪源数据包的地址（IP+端口）
   
-  -verbose
-        输出详细日志信息
+- `-verbose`                      输出详细日志信息
   
-  -visionAddress string
-        接收视觉系统数据包的地址（IP+端口）
+- `-visionAddress string`         接收视觉系统数据包的地址（IP+端口）
 
 ### 集成到您自己的框架
 如果您不想为测试目的实现自己的控制器，游戏控制器设计为可以集成到您自己的 AI 框架中。
@@ -163,8 +166,8 @@ GC 需要一些输入数据，请参阅 [外部运行依赖](#外部运行依赖
 
 首先需要安装以下依赖：
 
-* Go 语言环境
-* Node.js 环境
+* Go 语言环境      (Ubuntu建议使用gvm安装)
+* Node.js 环境    (Ubuntu建议使用nvm安装)
 
 具体兼容版本请参考 [.circleci/config.yml](.circleci/config.yml)。
 
