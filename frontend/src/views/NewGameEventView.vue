@@ -42,9 +42,9 @@ const createGameEvent = (gameEvent: GameEventJson) => {
     indicator-color="primary"
     align="justify"
   >
-    <q-tab name="ballLeftField" label="界外球"/>
-    <q-tab name="goal" label="进球"/>
-    <q-tab name="foul" label="犯规"/>
+    <q-tab name="ballLeftField" label="出界事件"/>
+    <q-tab name="goal" label="进球事件"/>
+    <q-tab name="foul" label="犯规事件"/>
     <q-tab name="matchProceeding" label="僵持状态"/>
     <q-tab name="unsportingBehavior" label="违反体育精神的行为"/>
   </q-tabs>
