@@ -1,6 +1,12 @@
 package engine
 
 import (
+	"log"
+	"math/rand"
+	"slices"
+	"sync"
+	"time"
+
 	"github.com/RoboCup-SSL/ssl-game-controller/internal/app/config"
 	"github.com/RoboCup-SSL/ssl-game-controller/internal/app/geom"
 	"github.com/RoboCup-SSL/ssl-game-controller/internal/app/state"
@@ -12,11 +18,6 @@ import (
 	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/types/known/durationpb"
 	"google.golang.org/protobuf/types/known/timestamppb"
-	"log"
-	"math/rand"
-	"slices"
-	"sync"
-	"time"
 )
 
 var changeOriginEngine = "Engine"
@@ -141,9 +142,10 @@ func (e *Engine) processGameEvent(gameEvent *state.GameEvent) *state.GameEvent {
 	}
 
 	// convert aimless kick if necessary
-	if /*e.currentState.Division.Div() == config.DivA &&*/ *gameEvent.Type == state.GameEvent_AIMLESS_KICK {
-		return convertAimlessKick(gameEvent)
-	}
+	// 在国际赛A组规则下，aimless kick事件不适用，转换为球出界事件
+	// if e.currentState.Division.Div() == config.DivA && *gameEvent.Type == state.GameEvent_AIMLESS_KICK {
+	// 	return convertAimlessKick(gameEvent)
+	// }
 	return gameEvent
 }
 
