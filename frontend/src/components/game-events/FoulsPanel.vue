@@ -13,6 +13,8 @@ import GameEventBotDribbledBallTooFarInput from "@/components/game-events/GameEv
 import GameEventBotKickedBallTooFastInput from "@/components/game-events/GameEventBotKickedBallTooFastInput.vue";
 import GameEventAttackerTooCloseToDefenseAreaInput
   from "@/components/game-events/GameEventAttackerTooCloseToDefenseAreaInput.vue";
+import GameEventAttackerTouchedOpponentInDefenseAreaInput
+  from "@/components/game-events/GameEventAttackerTouchedOpponentInDefenseAreaInput.vue";
 import GameEventDefenderInDefenseAreaInput from "@/components/game-events/GameEventDefenderInDefenseAreaInput.vue";
 import GameEventDefenderInDefenseAreaPartiallyInput from "@/components/game-events/GameEventDefenderInDefenseAreaPartiallyInput.vue";
 import GameEventBotTooFastInStopInput from "@/components/game-events/GameEventBotTooFastInStopInput.vue";
@@ -33,6 +35,7 @@ const components = new Map<GameEvent_TypeJson, any>([
   ['BOT_DRIBBLED_BALL_TOO_FAR', GameEventBotDribbledBallTooFarInput],
   ['BOT_KICKED_BALL_TOO_FAST', GameEventBotKickedBallTooFastInput],
   ['ATTACKER_TOO_CLOSE_TO_DEFENSE_AREA', GameEventAttackerTooCloseToDefenseAreaInput],
+  ['ATTACKER_TOUCHED_OPPONENT_IN_DEFENSE_AREA', GameEventAttackerTouchedOpponentInDefenseAreaInput],
   ['DEFENDER_IN_DEFENSE_AREA', GameEventDefenderInDefenseAreaInput],
   ['DEFENDER_IN_DEFENSE_AREA_PARTIALLY', GameEventDefenderInDefenseAreaPartiallyInput],
   ['BOT_TOO_FAST_IN_STOP', GameEventBotTooFastInStopInput],

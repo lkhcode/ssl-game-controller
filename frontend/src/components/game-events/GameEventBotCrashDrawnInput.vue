@@ -23,6 +23,10 @@ const createGameEvent = () => {
     <q-item-label header>
       {{ gameEventName(gameEvent.type) }}
     </q-item-label>
+    <q-item-label header class="text-grey-7" style="margin-top: -12px;">
+      {{ gameEvent.type }}
+    </q-item-label>
+
 
     <NumberItem v-model="details.botYellow" label="黄方机器人"/>
     <NumberItem v-model="details.botBlue" label="蓝方机器人"/>

@@ -26,6 +26,9 @@ const createGameEvent = () => {
     <q-item-label header>
       {{ gameEventName(gameEvent.type) }}
     </q-item-label>
+    <q-item-label header class="text-grey-7" style="margin-top: -12px;">
+      {{ gameEvent.type }}
+    </q-item-label>
 
     <TeamItem v-model="details.byTeam" label="队伍"/>
     <NumberItem v-model="details.violator" label="违规机器人"/>

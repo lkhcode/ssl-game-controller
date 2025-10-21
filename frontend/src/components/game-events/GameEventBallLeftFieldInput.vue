@@ -14,8 +14,8 @@ const byBot = ref<number | undefined>()
 const location = ref<Vector2Json>()
 
 const gameEventTypeOptions = [
-  {label: '边线', value: 'BALL_LEFT_FIELD_TOUCH_LINE'},
-  {label: '球门线', value: 'BALL_LEFT_FIELD_GOAL_LINE'},
+  {label: '边线出界', value: 'BALL_LEFT_FIELD_TOUCH_LINE'},
+  {label: '球门线出界', value: 'BALL_LEFT_FIELD_GOAL_LINE'},
   {label: '无意义射门', value: 'AIMLESS_KICK'},
 ]
 
@@ -63,7 +63,7 @@ const createGameEvent = () => {
 <template>
   <q-list bordered>
     <q-item-label header>
-      界外球
+      出界事件
     </q-item-label>
 
     <q-item>

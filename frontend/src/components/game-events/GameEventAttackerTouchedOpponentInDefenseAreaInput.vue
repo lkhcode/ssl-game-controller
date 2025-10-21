@@ -4,16 +4,16 @@ import TeamItem from "@/components/game-events/common/TeamItem.vue";
 import LocationItem from "@/components/game-events/common/LocationItem.vue";
 import NumberItem from "@/components/game-events/common/NumberItem.vue";
 import ButtonItem from "@/components/game-events/common/ButtonItem.vue";
-import {type GameEvent_DefenderTooCloseToKickPointJson, type GameEventJson} from "@/proto/state/ssl_gc_game_event_pb";
+import {type GameEvent_AttackerTouchedOpponentInDefenseAreaJson, type GameEventJson} from "@/proto/state/ssl_gc_game_event_pb";
 import {gameEventName} from "@/helpers/texts";
 
 const gameEvent = ref<GameEventJson>({
-  type: 'DEFENDER_TOO_CLOSE_TO_KICK_POINT',
-  defenderTooCloseToKickPoint: {
+  type: 'ATTACKER_TOUCHED_OPPONENT_IN_DEFENSE_AREA',
+  attackerTouchedOpponentInDefenseArea: {
     byTeam: 'YELLOW',
   }
 })
-const details = ref<GameEvent_DefenderTooCloseToKickPointJson>(gameEvent.value.defenderTooCloseToKickPoint!)
+const details = ref<GameEvent_AttackerTouchedOpponentInDefenseAreaJson>(gameEvent.value.attackerTouchedOpponentInDefenseArea!)
 
 const emit = defineEmits(['create-game-event'])
 const createGameEvent = () => {
@@ -32,8 +32,8 @@ const createGameEvent = () => {
 
     <TeamItem v-model="details.byTeam" label="队伍"/>
     <NumberItem v-model="details.byBot" label="机器人"/>
-    <NumberItem v-model="details.distance" label="距离"/>
-    <LocationItem v-model="details.location"/>
+    <NumberItem v-model="details.victim" label="受害方"/>
+    <LocationItem v-model="details.location" label="位置"/>
 
     <ButtonItem label="创建" @click="createGameEvent"/>
   </q-list>
