@@ -350,7 +350,7 @@ func (s *StateMachine) nextCommandForEvent(newState *state.State, gameEvent *sta
 	}
 	switch *gameEvent.Type {
 	case state.GameEvent_BALL_LEFT_FIELD_GOAL_LINE,
-		state.GameEvent_BALL_LEFT_FIELD_TOUCH_LINE,
+		// state.GameEvent_BALL_LEFT_FIELD_TOUCH_LINE,
 		// state.GameEvent_AIMLESS_KICK,//INDIRECT
 		state.GameEvent_ATTACKER_TOO_CLOSE_TO_DEFENSE_AREA,
 		state.GameEvent_BOT_PUSHED_BOT,
@@ -373,6 +373,7 @@ func (s *StateMachine) nextCommandForEvent(newState *state.State, gameEvent *sta
 		state.GameEvent_KEEPER_HELD_BALL,
 		state.GameEvent_BOT_DRIBBLED_BALL_TOO_FAR,
 		state.GameEvent_BOT_KICKED_BALL_TOO_FAST,
+		state.GameEvent_BALL_LEFT_FIELD_TOUCH_LINE,
 		state.GameEvent_ATTACKER_TOUCHED_OPPONENT_IN_DEFENSE_AREA,
 		state.GameEvent_ATTACKER_DOUBLE_TOUCHED_BALL:
 		return lastCommandOnUnknownTeam(
