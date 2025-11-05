@@ -153,7 +153,7 @@ jobs:
       - name: Determine tag
         run: |
           if [[ "${{ github.ref }}" == refs/tags/v* ]]; then
-            TAG=$(echo "${{ github.ref_name }}" | sed 's/^v//')  # 修复标签截取语法
+            TAG=$(echo "${{ github.ref_name }}" | sed 's/^v//')
           else
             TAG=latest
           fi
@@ -164,6 +164,6 @@ jobs:
             docker buildx build --platform linux/amd64,linux/arm64 \
               --build-arg cmd=${cmd} \
               -f ./cmd/${cmd}/Dockerfile \
-              -t herryli124/${cmd}:${{ env.TAG }} \  # 替换为 herryli124
+              -t herryli124/${cmd}:${{ env.TAG }} \
               --push .
           done
