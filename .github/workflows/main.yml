@@ -8,7 +8,6 @@ on:
     branches: [ '*' ]
 
 env:
-  # 对应原 pipeline 参数 cmds，默认值保持一致
   CMDS: ${{ github.event.inputs.cmds || 'ssl-game-controller ssl-ref-client' }}
 
 jobs:
@@ -136,7 +135,7 @@ jobs:
             docker buildx build --platform linux/amd64,linux/arm64 \
               --build-arg cmd=${cmd} \
               -f ./cmd/${cmd}/Dockerfile \
-              -t herryli124/${cmd}:latest .
+              -t herryli124/${cmd}:latest .  
           done
 
   publish_docker:
@@ -154,16 +153,17 @@ jobs:
       - name: Determine tag
         run: |
           if [[ "${{ github.ref }}" == refs/tags/v* ]]; then
-            echo "TAG=${{ github.ref_name:1 }}" >> $GITHUB_ENV
+            TAG=$(echo "${{ github.ref_name }}" | sed 's/^v//')  # 修复标签截取语法
           else
-            echo "TAG=latest" >> $GITHUB_ENV
+            TAG=latest
           fi
+          echo "TAG=$TAG" >> $GITHUB_ENV
       - name: Push Docker images (multi-arch)
         run: |
           for cmd in $CMDS; do
             docker buildx build --platform linux/amd64,linux/arm64 \
               --build-arg cmd=${cmd} \
               -f ./cmd/${cmd}/Dockerfile \
-              -t robocupssl/${cmd}:${{ env.TAG }} \
+              -t herryli124/${cmd}:${{ env.TAG }} \  # 替换为 herryli124
               --push .
           done
