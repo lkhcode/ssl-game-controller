@@ -1,12 +1,13 @@
-[![CircleCI](https://circleci.com/gh/Robocup-ssl-China/ssl-game-controller/tree/master.svg?style=svg)](https://circleci.com/gh/RoboCup-SSL/ssl-game-controller/tree/master)
+![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/lkhcode/ssl-game-controller/main.yml)
 [![Go Report Card](https://goreportcard.com/badge/github.com/Robocup-ssl-China/ssl-game-controller?style=flat-square)](https://goreportcard.com/report/github.com/Robocup-ssl-China/ssl-game-controller)
 [![Go Doc](https://img.shields.io/badge/godoc-reference-blue.svg?style=flat-square)](https://godoc.org/github.com/Robocup-ssl-China/ssl-game-controller)
 [![Release](https://img.shields.io/github/release/lkhcode/ssl-game-controller.svg?style=flat-square)](https://github.com/lkhcode/ssl-game-controller/releases/latest)
+![Docker Image Version](https://img.shields.io/docker/v/herryli124/ssl-game-controller?sort=date&style=plastic)
 [![Coverage](https://img.shields.io/badge/coverage-report-blue.svg)](https://circleci.com/api/v1.1/project/github/Robocup-ssl-China/ssl-game-controller/latest/artifacts/0/coverage?branch=master)
 
 # ssl-game-controller
 
-本项目Fork自[Robocup-SSL的ssl-game-controller](https://github.com/RoboCup-SSL/ssl-game-controller)，基于Robocup世界杯的裁判盒，针对[Robocup世界杯中国公开赛](http://crc.drct-caa.org.cn/static/kindeditor/attached/file/20250207/20250207014751_79139.pdf)与[浙江省大学生机器人竞赛足球机器人赛项](https://oss.moocollege.com/27757/edit/HIZ0s6JS_1742376586041.pdf)的比赛规则进行了修改与适配
+本项目Fork自[Robocup-SSL的ssl-game-controller](https://github.com/RoboCup-SSL/ssl-game-controller)，基于Robocup世界杯的裁判盒，针对[Robocup世界杯中国公开赛小型组](http://crc.drct-caa.org.cn/static/kindeditor/attached/file/20250207/20250207014751_79139.pdf)与[浙江省大学生机器人竞赛小型足球机器人赛项](https://oss.moocollege.com/27757/edit/HIZ0s6JS_1742376586041.pdf)的比赛规则进行了修改与适配
 
 ![Screenshot of Interface 1](./doc/screenshot_interface_zh_cn_2.png)
 
@@ -74,20 +75,20 @@
 
 GC在首次启动时会在 [config/](./config/) 目录下生成默认配置。之后，您可以在那里修改所有设置。
 
-例如，如果您想临时添加一个新的队伍名称，可以将其添加到 [config/engine.yaml](./config/engine.yaml) 中。如果您想永久添加您的队伍，请将其添加到 [internal/app/engine/config.go](internal/app/engine/config.go) 中的 `defaultTeams` 并在 GitHub 上创建一个拉取请求。
+例如，如果您想临时添加一个新的队伍名称，可以将其添加到 [config/engine.yaml](./config/engine.yaml) 中。如果您想永久添加您的队伍，请将其添加到 [internal/app/engine/config.go](internal/app/engine/config.go) 中的 `defaultTeams` 并在 GitHub 上创建一个PR。
 
 ### 运行环境要求
 
 * 无软件依赖（开发除外，见下文）
-* 预构建二进制文件支持(原版)：64位 Linux、Windows
+* 预构建二进制文件支持：64位 Linux、Windows
 * 现代浏览器（主要在 Chrome 上测试）
 
 ### 外部运行依赖
 
-* [ssl-vision](https://github.com/RoboCup-SSL/ssl-vision) - 接收几何数据包以获取正确的场地尺寸
+* [ssl-vision](https://github.com/RoboCup-SSL/ssl-vision) - 接收数据包以获取正确的场地尺寸
 * 如果没有 ssl-vision，请确保在 [config/ssl-game-controller.yaml](config/ssl-game-controller.yaml) 中配置正确的尺寸
 
-需要一个能产生 [TrackerWrapperPacket](https://github.com/RoboCup-SSL/ssl-vision/blob/master/src/shared/proto/messages_robocup_ssl_wrapper_tracked.proto) 的跟踪源实现来获取球和机器人位置.  
+需要一个能产生 [TrackerWrapperPacket](https://github.com/RoboCup-SSL/ssl-vision/blob/master/src/shared/proto/messages_robocup_ssl_wrapper_tracked.proto) 的追踪源实现来获取球和机器人位置.  
    
 这对以下功能是必需的：
 * 检查放球进度
@@ -106,19 +107,19 @@ GC在首次启动时会在 [config/](./config/) 目录下生成默认配置。�
  * [ssl-remote-control-client](./cmd/ssl-remote-control-client/README.md): 作为远程控制连接到GC的客户端
  * [ssl-ci-test-client](./cmd/ssl-ci-test-client/README.md): 连接到GC的 CI 接口的客户端
 
-### 在命令行运行ssl-game-controller可使用的参数
+### 在命令行运行ssl-game-controller可配置的参数
 
-- `-address string`               提供UI 和 API 服务的地址（默认为 "localhost:8081"）
+- `-address string`               提供UI 和WebSocket API 服务的地址（默认为 'localhost:8081'）
   
 - `-backendOnly`                  仅运行后端，不启动 UI 和 API 服务
   
-- `-ciAddress string`             提供 CI 连接服务的地址
+- `-ciAddress string`             提供 CI 服务的地址（IP+端口）
   
 - `-publishAddress string`        发送裁判命令的地址（IP+端口）
   
-- `-skipInterfaces string`        接收多播数据包时要忽略的网络接口名称列表（用逗号分隔）
+- `-skipInterfaces string`        接收多播数据包时要忽略的网络接口名称列表（用','分隔）
   
-- `-timeAcquisitionMode string`   使用的时间获取模式（system：系统时间，ci：CI模式，vision：视觉系统时间）
+- `-timeAcquisitionMode string`   使用的时间戳获取模式（system：系统时间，ci：CI模式，vision：视觉系统时间）
   
 - `-trackerAddress string`        接收追踪源数据包的地址（IP+端口）
   
@@ -127,11 +128,11 @@ GC在首次启动时会在 [config/](./config/) 目录下生成默认配置。�
 - `-visionAddress string`         接收视觉系统数据包的地址（IP+端口）
 
 ### 集成到您自己的框架
-如果您不想为测试目的实现自己的控制器，游戏控制器设计为可以集成到您自己的 AI 框架中。
+如果您不想为测试目的实现自己的控制器， Game-Controller 可以集成到您自己的 AI 框架中。
 
-从 Github 发布页面下载发布版本的二进制文件，并在您的框架内运行它。您可以调整首次启动时生成的 `ssl-game-controller.yaml` 配置文件，比如更改默认端口。某些参数也可以通过命令行传递。使用 `-h` 选项可以查看可用参数。请尽可能使用非标准端口，以避免与实际场地设置产生干扰。
+从 Github Release 页面下载发布版本的二进制文件，并在您的框架内运行它。您可以调整首次启动时生成的 `ssl-game-controller.yaml` 配置文件，比如更改默认端口。某些参数也可以通过命令行传递。使用 `-h` 选项可以查看可用参数。请尽可能使用非标准端口，以避免与实际场地设置产生干扰。
 
-游戏控制器可以在以下三种模式下运行：
+'ssl-game-controller'可以在以下三种模式下运行：
 
 1. `system`（默认）：使用系统时间
 2. `vision`：接收来自 ssl-vision 的消息，并使用这些消息中的时间戳作为时间源。这在从仿真中生成自己的 ssl-vision 帧时特别有用。
@@ -144,9 +145,9 @@ GC在首次启动时会在 [config/](./config/) 目录下生成默认配置。�
 3. 您可以定义时间，从而控制速度
 4. 您可以直接提供 ssl-vision 跟踪数据
 
-如果您使用外部仿真器（如 grSim，rocos），可以考虑使用 `vision` 模式。这样，游戏控制器将使用仿真器的时间和速度，即使它不是实时运行的。如果需要上述功能，仍然需要运行一个跟踪源实现，如Autoref。
+如果您使用外部仿真器（如 grSim），可以考虑使用 `vision` 模式。这样，游戏控制器将使用仿真器的时间和速度，即使它不是实时运行的。如果需要上述功能，仍然需要运行一个跟踪源实现，如Autoref。
 
-启用 `ci` 模式时，裁判消息仍将通过多播发布，除非地址未设置（设置为空字符串）。这样，您仍然可以集成自动裁判或其他软件。有关如何以 CI 方式集成自动裁判的详细信息，请参阅 [Auto-referee CI](doc/AutoRefCi.md)。
+启用 `ci` 模式时，裁判消息仍将通过组播发布，除非地址未设置（设置为空字符串）。这样，您仍然可以集成自动裁判或其他软件。有关如何以 CI 方式集成自动裁判的详细信息，请参阅 [Auto-referee CI](doc/AutoRefCi.md)。
 
 启用 `ci` 模式时（通过 `ssl-game-controller.yaml` -> `time-acquisition-mode`），将打开一个 TCP 端口（默认：10009）。协议在 [proto/ssl_gc_ci.proto](./proto/ssl_gc_ci.proto) 中定义。您发送 `CiInput` 消息并接收 `CiOutput` 消息。协议与 [team-client](./cmd/ssl-team-client/README.md) 相同。每个输入将产生一个或多个输出。这是因为某些更改会生成多个消息。`CiOutput` 消息也会在 UI 或 UI API 中手动更改时推送到 CI 客户端。
 
@@ -156,9 +157,9 @@ GC 需要一些输入数据，请参阅 [外部运行依赖](#外部运行依赖
 
 如果不能使用 `ci` 模式，您可以通过 UI WebSocket API 连接到 GC。API 在 [proto/ssl_gc_api.proto](./proto/ssl_gc_api.proto) 中定义，并在与 UI 相同的端口下的路径 `/api/control` 提供。
 
-#### 示例
- * 二进制集成示例：https://github.com/TIGERs-Mannheim/AutoReferee/blob/master/modules/moduli-referee/src/main/java/edu/tigers/sumatra/referee/SslGameControllerProcess.java
- * Java 中的 WebSocket API 示例：https://github.com/TIGERs-Mannheim/AutoReferee/blob/master/modules/moduli-referee/src/main/java/edu/tigers/sumatra/referee/control
+#### 样例
+ * 在 ci 模式将 GC 集成的样例：https://github.com/TIGERs-Mannheim/AutoReferee/blob/master/modules/moduli-referee/src/main/java/edu/tigers/sumatra/referee/SslGameControllerProcess.java
+ * 使用 Java 中的 WebSocket API 集成 GC 样例：https://github.com/TIGERs-Mannheim/AutoReferee/blob/master/modules/moduli-referee/src/main/java/edu/tigers/sumatra/referee/control
 
 ## 开发
 
@@ -166,10 +167,10 @@ GC 需要一些输入数据，请参阅 [外部运行依赖](#外部运行依赖
 
 首先需要安装以下依赖：
 
-* Go 语言环境      (Ubuntu建议使用gvm安装)
-* Node.js 环境    (Ubuntu建议使用nvm安装)
+* Golang 语言环境      (Ubuntu 建议使用 gvm 安装，当前使用版本为 1.24)
+* Node.js 环境    (Ubuntu 建议使用 nvm 安装)
 
-具体兼容版本请参考 [.circleci/config.yml](.circleci/config.yml)。
+具体兼容版本请参考 [.github/workflow/main.yml](.github/workflow/main.yml)。
 
 ### 前端开发
 
