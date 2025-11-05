@@ -1,0 +1,169 @@
+name: Build & Release
+
+on:
+  push:
+    branches: [ '*' ]
+    tags: [ 'v*' ]
+  pull_request:
+    branches: [ '*' ]
+
+env:
+  # 对应原 pipeline 参数 cmds，默认值保持一致
+  CMDS: ${{ github.event.inputs.cmds || 'ssl-game-controller ssl-ref-client' }}
+
+jobs:
+  build_node:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+          cache: 'npm'
+          cache-dependency-path: frontend/package-lock.json
+      - name: Install dependencies
+        working-directory: frontend
+        run: npm install
+      - name: Build
+        working-directory: frontend
+        run: npm run build
+      - name: Save workspace
+        uses: actions/upload-artifact@v4
+        with:
+          name: frontend-dist
+          path: frontend/dist/
+
+  test_go:
+    needs: build_node
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: 1.24.2
+          cache: true
+      - name: Restore frontend dist
+        uses: actions/download-artifact@v4
+        with:
+          name: frontend-dist
+          path: frontend/dist/
+      - name: Install dependencies
+        run: go get -v -t -d ./...
+      - name: Run tests with coverage
+        run: go test -v -covermode=count -coverprofile=count.out ./...
+      - name: Generate coverage report
+        run: go tool cover -html=count.out -o coverage.html
+      - name: Upload coverage artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: coverage.html
+
+  build_go:
+    needs: build_node
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: 1.24.2
+          cache: true
+      - name: Restore frontend dist
+        uses: actions/download-artifact@v4
+        with:
+          name: frontend-dist
+          path: frontend/dist/
+      - name: Install dependencies
+        run: go get -v -t -d ./...
+      - name: Build binaries for multiple platforms
+        run: |
+          set -u
+          version=${{ github.ref_name }}
+          mkdir -p release
+          for cmd in $CMDS; do
+            GOOS=linux GOARCH=amd64 go build -o ./release/${cmd}_${version}_linux_amd64 ./cmd/${cmd}
+            GOOS=linux GOARCH=arm64 go build -o ./release/${cmd}_${version}_linux_arm64 ./cmd/${cmd}
+            GOOS=linux GOARCH=arm go build -o ./release/${cmd}_${version}_linux_arm ./cmd/${cmd}
+            GOOS=darwin GOARCH=amd64 go build -o ./release/${cmd}_${version}_darwin_amd64 ./cmd/${cmd}
+            GOOS=darwin GOARCH=arm64 go build -o ./release/${cmd}_${version}_darwin_arm64 ./cmd/${cmd}
+            GOOS=windows GOARCH=amd64 go build -o ./release/${cmd}_${version}_windows_amd64.exe ./cmd/${cmd}
+            GOOS=windows GOARCH=arm64 go build -o ./release/${cmd}_${version}_windows_arm64.exe ./cmd/${cmd}
+          done
+      - name: Save release binaries
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-binaries
+          path: release/
+
+  publish_gh:
+    needs: build_go
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download release binaries
+        uses: actions/download-artifact@v4
+        with:
+          name: release-binaries
+          path: release/
+      - name: Install ghr
+        run: go install github.com/tcnksm/ghr@v0.16.0
+      - name: Publish to GitHub Releases
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -u
+          ghr -t $GITHUB_TOKEN \
+              -u ${{ github.repository_owner }} \
+              -r ${{ github.event.repository.name }} \
+              -c ${{ github.sha }} \
+              -delete -generatenotes \
+              ${{ github.ref_name }} ./release
+
+  build_docker:
+    if: github.ref != 'refs/heads/master'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      - name: Build Docker images (multi-arch)
+        run: |
+          for cmd in $CMDS; do
+            docker buildx build --platform linux/amd64,linux/arm64 \
+              --build-arg cmd=${cmd} \
+              -f ./cmd/${cmd}/Dockerfile \
+              -t herryli124/${cmd}:latest .
+          done
+
+  publish_docker:
+    if: github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_PASSWORD }}
+      - name: Determine tag
+        run: |
+          if [[ "${{ github.ref }}" == refs/tags/v* ]]; then
+            echo "TAG=${{ github.ref_name:1 }}" >> $GITHUB_ENV
+          else
+            echo "TAG=latest" >> $GITHUB_ENV
+          fi
+      - name: Push Docker images (multi-arch)
+        run: |
+          for cmd in $CMDS; do
+            docker buildx build --platform linux/amd64,linux/arm64 \
+              --build-arg cmd=${cmd} \
+              -f ./cmd/${cmd}/Dockerfile \
+              -t robocupssl/${cmd}:${{ env.TAG }} \
+              --push .
+          done
