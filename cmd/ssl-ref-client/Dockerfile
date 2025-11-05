@@ -1,4 +1,4 @@
-FROM golang:1.23-alpine@sha256:b7486658b87d34ecf95125e5b97e8dfe86c21f712aa36fc0c702e5dc41dc63e1 AS build_go
+FROM golang:1.24.2-alpine AS build_go
 ARG cmd=ssl-ref-client
 WORKDIR work
 COPY . .
