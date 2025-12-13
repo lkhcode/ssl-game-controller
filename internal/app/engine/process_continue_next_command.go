@@ -2,13 +2,14 @@ package engine
 
 import (
 	"fmt"
+	"math"
+	"strings"
+	"time"
+
 	"github.com/RoboCup-SSL/ssl-game-controller/internal/app/geom"
 	"github.com/RoboCup-SSL/ssl-game-controller/internal/app/state"
 	"github.com/RoboCup-SSL/ssl-game-controller/pkg/timer"
 	"google.golang.org/protobuf/types/known/timestamppb"
-	"math"
-	"strings"
-	"time"
 )
 
 const distanceToBallDuringPenalty = 1.0
@@ -42,10 +43,12 @@ func (e *Engine) createNextCommandContinueAction(
 		}
 		readyAt = maxTime(readyAt, e.currentState.ReadyContinueTime)
 		preparationTimeLeft := readyAt.AsTime().Sub(e.timeProvider())
+		// BOT_TOO_FAST_IN_STOP 事件需要手动恢复，不自动恢复比赛
+		hasBotTooFastInStop := len(e.currentState.FindGameEvents(state.GameEvent_BOT_TOO_FAST_IN_STOP)) > 0
 		if preparationTimeLeft > 0 {
 			actionState = ContinueAction_WAITING
 			continuationIssues = append(continuationIssues, fmt.Sprintf("准备阶段还剩 %.0f 秒", preparationTimeLeft.Seconds()))
-		} else if actionType == ContinueAction_NEXT_COMMAND || actionType == ContinueAction_NORMAL_START {
+		} else if (actionType == ContinueAction_NEXT_COMMAND || actionType == ContinueAction_NORMAL_START) && !hasBotTooFastInStop {
 			actionState = ContinueAction_READY_AUTO
 		} else {
 			actionState = ContinueAction_READY_MANUAL

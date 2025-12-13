@@ -364,6 +364,7 @@ func (s *StateMachine) nextCommandForEvent(newState *state.State, gameEvent *sta
 		state.GameEvent_BOT_CRASH_DRAWN,  //原来不暂停
 		state.GameEvent_BOT_CRASH_UNIQUE, //原来不暂停
 		state.GameEvent_PENALTY_KICK_FAILED,
+		state.GameEvent_BOT_TOO_FAST_IN_STOP,//新增
 		state.GameEvent_INVALID_GOAL:
 		return lastCommandOnUnknownTeam(
 			newState.NextCommand,
