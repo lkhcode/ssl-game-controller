@@ -15,7 +15,7 @@ const update = () => {
 
 <template>
   <q-btn
-    label="Random color"
+    label="随机颜色"
     color="primary"
     icon="casino"
     @click="update"

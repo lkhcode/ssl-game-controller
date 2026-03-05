@@ -23,6 +23,6 @@ const warn = computed(() => {
 
 <template>
   <span :class="{'text-warning': warn}">
-  Auto-Referees: {{ numAutoRefs }} | Tracker Sources: {{ numTrackerSource }}
+  自动裁判盒: {{ numAutoRefs }} | 追踪源: {{ numTrackerSource }}
   </span>
 </template>

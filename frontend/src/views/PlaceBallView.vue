@@ -6,7 +6,6 @@ import {isPausedStage} from "@/helpers";
 import type {TeamJson} from "@/proto/state/ssl_gc_common_pb";
 import type {ControlApi} from "@/providers/controlApi";
 import type {Vector2} from "@/proto/geom/ssl_gc_geometry_pb";
-import NumberInput from "@/components/common/NumberInput.vue";
 
 const store = useMatchStateStore()
 const control = inject<ControlApi>('control-api')
@@ -50,18 +49,18 @@ const disable = computed(() => {
 
 <template>
   <div class="row justify-evenly q-mt-md">
-    <ControlButton label="Reset sliders to current ball position"
+    <ControlButton label="重置到当前球的位置"
                    :disable="false"
                    :action="resetBallPos"/>
   </div>
 
   <div class="row justify-evenly q-mt-md">
     <NumberInput
-      label="X-Coordinate"
+      label="X-坐标"
       v-model="newBallPos.x"
     />
     <NumberInput
-      label="Y-Coordinate"
+      label="Y-坐标"
       v-model="newBallPos.y"
     />
   </div>
@@ -80,7 +79,7 @@ const disable = computed(() => {
             :step="0.1"
             selection-color="transparent"
             label
-            :label-value="newBallPos.x + ' m'"
+            :label-value="newBallPos.x + ' 米'"
             label-always
           />
           <q-slider class="slider-current"
@@ -120,7 +119,7 @@ const disable = computed(() => {
             :step="0.1"
             selection-color="transparent"
             label
-            :label-value="newBallPos.y + ' m'"
+            :label-value="newBallPos.y + ' 米'"
             label-always
             switch-label-side
           />
@@ -131,7 +130,7 @@ const disable = computed(() => {
   </div>
 
   <div class="row justify-evenly q-mt-md">
-    <ControlButton class="col-grow" label="Place ball"
+    <ControlButton class="col-grow" label="放球"
                    v-for="team in (['YELLOW', 'BLUE']) as TeamJson[]"
                    :key="team"
                    :disable="disable"

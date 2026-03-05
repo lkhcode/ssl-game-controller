@@ -27,7 +27,7 @@ const updateValue = (value: boolean) => {
 <template>
   <ToggleInput
     :modelValue="model"
-    label="Goal on positive field half"
+    label="在正半场进攻"
     @update:model-value="updateValue"
   />
 </template>

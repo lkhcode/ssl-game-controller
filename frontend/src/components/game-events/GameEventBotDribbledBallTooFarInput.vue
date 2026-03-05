@@ -27,11 +27,11 @@ const createGameEvent = () => {
       {{ gameEventName(gameEvent.type) }}
     </q-item-label>
 
-    <TeamItem v-model="details.byTeam" label="by team"/>
-    <NumberItem v-model="details.byBot" label="duration"/>
-    <LocationItem v-model="details.start" label="start"/>
-    <LocationItem v-model="details.end" label="end"/>
+    <TeamItem v-model="details.byTeam" label="队伍"/>
+    <NumberItem v-model="details.byBot" label="持续时间"/>
+    <LocationItem v-model="details.start" label="开始"/>
+    <LocationItem v-model="details.end" label="结束"/>
 
-    <ButtonItem label="Create" @click="createGameEvent"/>
+    <ButtonItem label="创建" @click="createGameEvent"/>
   </q-list>
 </template>

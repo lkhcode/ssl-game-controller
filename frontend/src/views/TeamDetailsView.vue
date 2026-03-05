@@ -28,7 +28,7 @@ const team: TeamJson = route.params.team.toString().toUpperCase() as TeamJson
           </q-item-section>
 
           <q-item-section>
-            Fouls
+            犯规
           </q-item-section>
 
           <q-item-section side>
@@ -53,7 +53,7 @@ const team: TeamJson = route.params.team.toString().toUpperCase() as TeamJson
           </q-item-section>
 
           <q-item-section>
-            Yellow Cards
+            黄牌
           </q-item-section>
 
           <q-item-section side>
@@ -79,7 +79,7 @@ const team: TeamJson = route.params.team.toString().toUpperCase() as TeamJson
           </q-item-section>
 
           <q-item-section>
-            Red Cards
+            红牌
           </q-item-section>
 
           <q-item-section side>

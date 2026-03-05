@@ -27,7 +27,7 @@ const onChange = (newValue: boolean) => {
 <template>
   <ToggleInput
     :modelValue="model"
-    label="Substitution request"
+    label="换车请求"
     @update:model-value="onChange"
   />
 </template>

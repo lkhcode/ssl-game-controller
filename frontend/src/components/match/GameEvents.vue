@@ -132,7 +132,7 @@ const acceptGroup = (groupId: string) => {
           <q-btn
             dense
             color="primary"
-            label="Accept"
+            label="接受"
             @click="() => acceptGroup(prop.node.proposalGroup?.id!)"
             v-if="!prop.node.proposalGroup?.accepted"/>
         </q-item-section>
@@ -167,6 +167,6 @@ const acceptGroup = (groupId: string) => {
   </q-tree>
 
   <div v-else>
-    No recent game event proposals
+    暂无最近的比赛事件提案
   </div>
 </template>

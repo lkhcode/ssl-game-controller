@@ -24,7 +24,7 @@ const updateValue = (value: number | undefined) => {
 <template>
   <NumberInput
       :modelValue="model"
-      label="Max robots"
+      label="最大机器人数量"
       @update:model-value="updateValue"
   />
 </template>

@@ -2,11 +2,12 @@ package engine
 
 import (
 	"fmt"
-	"github.com/RoboCup-SSL/ssl-game-controller/internal/app/geom"
-	"github.com/RoboCup-SSL/ssl-game-controller/internal/app/state"
 	"log"
 	"math"
 	"time"
+
+	"github.com/RoboCup-SSL/ssl-game-controller/internal/app/geom"
+	"github.com/RoboCup-SSL/ssl-game-controller/internal/app/state"
 )
 
 func (e *Engine) nextActions() (actions []*ContinueAction, hints []*ContinueHint) {
@@ -51,7 +52,7 @@ func (e *Engine) nextActions() (actions []*ContinueAction, hints []*ContinueHint
 
 	if *e.currentState.Command.Type == state.Command_TIMEOUT {
 		timeLeft := e.currentState.TeamInfo(*e.currentState.Command.ForTeam).TimeoutTimeLeft.AsDuration().Truncate(time.Second)
-		message := fmt.Sprintf("Timeout time left: %s", timeLeft)
+		message := fmt.Sprintf("Timeout 时间剩余: %s", timeLeft)
 		hints = append(hints, &ContinueHint{Message: &message})
 
 		actions = append(actions, createContinueAction(
@@ -84,11 +85,11 @@ func (e *Engine) nextActions() (actions []*ContinueAction, hints []*ContinueHint
 		)
 		if e.teamDoingBotSubstitution() {
 			continueFromHalt.ContinuationIssues = append(continueFromHalt.ContinuationIssues,
-				"Robot substitution in progress")
+				"机器人更换中 Robot substitution in progress")
 		}
 
 		if e.currentState.MatchType == nil || *e.currentState.MatchType == state.MatchType_UNKNOWN_MATCH {
-			continueFromHalt.ContinuationIssues = append(continueFromHalt.ContinuationIssues, "Match type is not set")
+			continueFromHalt.ContinuationIssues = append(continueFromHalt.ContinuationIssues, "未设置比赛类型 Match type is not set")
 			*continueFromHalt.State = ContinueAction_DISABLED
 		}
 
@@ -212,7 +213,7 @@ func (e *Engine) actionsToContinueFromStop() (actions []*ContinueAction, hints [
 				ContinueAction_READY_AUTO,
 			))
 		} else {
-			hint := fmt.Sprintf("Manually place the ball at x: %.2fm, y: %.2fm",
+			hint := fmt.Sprintf("请人工放球至 x: %.2fm, y: %.2fm",
 				*e.currentState.PlacementPos.X, *e.currentState.PlacementPos.Y)
 			hints = append(hints, &ContinueHint{
 				Message: &hint,
@@ -392,6 +393,7 @@ func suggestEndOfMatch(currentState *state.State) bool {
 		return goalsY != goalsB
 	}
 
+	// 国赛规则：一队进球数达到10且领先对方1球及以上，比赛立即结束
 	if *currentState.Stage != state.Referee_POST_GAME &&
 		(goalsY >= 10 || goalsB >= 10) && math.Abs(float64(goalsY-goalsB)) > 1 {
 		return true

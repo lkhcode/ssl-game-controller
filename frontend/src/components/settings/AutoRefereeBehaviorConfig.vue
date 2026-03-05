@@ -60,22 +60,21 @@ function changeAll(behavior: AutoRefConfig_BehaviorJson) {
 
 <template>
   <p>
-    Game events from this autoRef can be handled in the following ways:
+    来自此自动裁判盒的比赛事件可以通过以下方式处理:
   </p>
   <ul>
-    <li>Accept: Process event according to the globally configured behavior (first tab).</li>
-    <li>Log: Add passive event to the protocol, but do not process it at all.</li>
-    <li>Ignore: Drop event silently.</li>
+    <li>接受: 根据全局配置的行为（第一个选项卡）处理事件。</li>
+    <li>记录: 将被动事件添加到日志中，但完全不处理它。</li>
+    <li>忽略: 静默丢弃事件。</li>
   </ul>
   <p>
-    Note: If majority handling is enabled for a game event, only auto referees are considered that
-    have the respective game event configured as 'Accept'.
-    If an auto referee is known to not support certain events, the behavior should be set to 'Ignore'.
+    注意: 如果某个比赛事件启用了多数通过处理方式，则只考虑那些将相应事件配置为"接受"的自动裁判盒。
+    如果已知某个自动裁判不支持特定事件，应将其行为设置为"忽略"。
   </p>
   <q-list bordered class="rounded-borders">
     <q-item>
       <q-item-section>
-        <q-item-label><strong>All</strong></q-item-label>
+        <q-item-label><strong>全部</strong></q-item-label>
       </q-item-section>
 
       <q-item-section side>

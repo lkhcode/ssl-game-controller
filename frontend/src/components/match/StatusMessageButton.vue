@@ -8,8 +8,8 @@ const store = useMatchStateStore()
 const control = inject<ControlApi>('control-api')!
 
 const suggestedStatusMessages = [
-  'Vision Problems',
-  'Rule Discussions',
+  '视觉问题',
+  '规则讨论',
 ]
 
 const dialogOpen = ref(false)
@@ -79,13 +79,13 @@ const onCustomStatusMessageSelected = () => {
   <q-dialog v-model="dialogOpen">
     <q-card class="q-px-sm q-pb-md">
       <q-card-section class="row items-center q-pb-none">
-        <div class="text-h6">Status Message</div>
+        <div class="text-h6">状态消息</div>
         <q-space/>
         <q-btn icon="close" flat round dense v-close-popup/>
       </q-card-section>
 
       <q-card-section>
-        The status message will be broadcast and displayed on the status-board.
+        状态消息将被广播并显示在状态板上。
       </q-card-section>
 
       <q-separator/>
@@ -115,7 +115,7 @@ const onCustomStatusMessageSelected = () => {
             />
           </q-item-section>
           <q-item-section>
-            <q-item-label>Custom</q-item-label>
+            <q-item-label>自定义</q-item-label>
           </q-item-section>
         </q-item>
 
@@ -134,11 +134,11 @@ const onCustomStatusMessageSelected = () => {
       <q-card-actions>
         <q-btn
           v-close-popup
-          label="Close"
+          label="关闭"
           color="primary"
         />
         <q-btn
-          label="Clear"
+          label="清除"
           color="primary"
           @click="clearStatusMessage"
         />

@@ -13,7 +13,7 @@ const update = () => {
 
 <template>
   <q-btn
-    label="Switch color"
+    label="交换颜色"
     color="primary"
     icon="sync_alt"
     @click="update"
