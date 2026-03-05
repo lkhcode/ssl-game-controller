@@ -6,10 +6,13 @@
 
 # ssl-game-controller
 
-The game controller for matches in the RoboCup Small Size league, introduced at RoboCup 2019 as a replacement of
-the [ssl-refbox](https://github.com/RoboCup-SSL/ssl-refbox).
+本项目 Fork 自 [RoboCup-SSL/ssl-game-controller](https://github.com/RoboCup-SSL/ssl-game-controller)，对裁判盒进行了汉化处理，便于大家使用
 
-![Screenshot of Interface](./doc/screenshot_interface.png)
+你可以看到本仓库有两个分支，master 分支为2026年的省赛规则版本，使用FREE_KICK ，2025zjrobocon 分支对应2025年的省赛规则，使用DIRECT_FREE_KICK 与 INDIRECT_FREE_KICK
+
+你可以下载 Release 内我提供的二进制文件，也可以拉取项目，使用 `make build` 构建项目，会自动根据平台构建对应的二进制文件，目前仅在 Windows 与 Ubuntu 平台进行测试
+
+![Screenshot of Interface](./doc/image.png)
 
 ## Add your team name
 
