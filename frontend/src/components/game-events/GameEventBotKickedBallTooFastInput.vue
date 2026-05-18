@@ -30,7 +30,7 @@ const createGameEvent = () => {
     </q-item-label>
 
     <TeamItem v-model="details.byTeam" label="队伍"/>
-    <NumberItem v-model="details.byBot" label="持续时间"/>
+    <NumberItem v-model="details.byBot" label="机器人"/>
     <NumberItem v-model="details.initialBallSpeed" label="初始球速"/>
     <ToggleItem v-model="details.chipped" label="是否挑射"/>
     <LocationItem v-model="details.location"/>

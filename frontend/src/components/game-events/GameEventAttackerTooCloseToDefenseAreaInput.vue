@@ -29,7 +29,7 @@ const createGameEvent = () => {
     </q-item-label>
 
     <TeamItem v-model="details.byTeam" label="队伍"/>
-    <NumberItem v-model="details.byBot" label="持续时间"/>
+    <NumberItem v-model="details.byBot" label="机器人"/>
     <NumberItem v-model="details.distance" label="距离"/>
     <LocationItem v-model="details.ballLocation" label="球的位置"/>
     <LocationItem v-model="details.location"/>
