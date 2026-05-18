@@ -5,6 +5,7 @@ import LocationItem from "@/components/game-events/common/LocationItem.vue";
 import NumberItem from "@/components/game-events/common/NumberItem.vue";
 import ButtonItem from "@/components/game-events/common/ButtonItem.vue";
 import type {GameEvent_TypeJson, GameEventJson} from "@/proto/state/ssl_gc_game_event_pb";
+import {gameEventName} from "@/helpers/texts";
 import type {TeamJson} from "@/proto/state/ssl_gc_common_pb";
 import type {Vector2Json} from "@/proto/geom/ssl_gc_geometry_pb";
 
@@ -63,7 +64,8 @@ const createGameEvent = () => {
 <template>
   <q-list bordered>
     <q-item-label header>
-      出界事件
+      <div>{{ gameEventName(gameEventType) }}</div>
+      <div class="text-caption text-grey-7">{{ gameEventType }}</div>
     </q-item-label>
 
     <q-item>

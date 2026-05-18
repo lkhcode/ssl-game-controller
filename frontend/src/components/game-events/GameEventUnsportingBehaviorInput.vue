@@ -4,6 +4,7 @@ import TeamItem from "@/components/game-events/common/TeamItem.vue";
 import ButtonItem from "@/components/game-events/common/ButtonItem.vue";
 import TextItem from "@/components/game-events/common/TextItem.vue";
 import type {GameEvent_TypeJson, GameEventJson} from "@/proto/state/ssl_gc_game_event_pb";
+import {gameEventName} from "@/helpers/texts";
 import type {TeamJson} from "@/proto/state/ssl_gc_common_pb";
 
 const gameEventType = ref<GameEvent_TypeJson>('UNSPORTING_BEHAVIOR_MINOR')
@@ -48,7 +49,8 @@ const createGameEvent = () => {
 <template>
   <q-list bordered>
     <q-item-label header>
-      违反体育精神的行为
+      <div>{{ gameEventName(gameEventType) }}</div>
+      <div class="text-caption text-grey-7">{{ gameEventType }}</div>
     </q-item-label>
 
     <div class="q-mx-md q-mb-md">

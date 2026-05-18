@@ -6,7 +6,8 @@ import NumberItem from "@/components/game-events/common/NumberItem.vue";
 import ToggleItem from "@/components/game-events/common/ToggleItem.vue";
 import TextItem from "@/components/game-events/common/TextItem.vue";
 import ButtonItem from "@/components/game-events/common/ButtonItem.vue";
-import {type GameEvent_GoalJson, type GameEventJson} from "@/proto/state/ssl_gc_game_event_pb";
+import {type GameEvent_GoalJson, type GameEvent_TypeJson, type GameEventJson} from "@/proto/state/ssl_gc_game_event_pb";
+import {gameEventName} from "@/helpers/texts";
 
 const possibleGoal = ref(true)
 const goal = ref<GameEvent_GoalJson>({
@@ -14,6 +15,9 @@ const goal = ref<GameEvent_GoalJson>({
 })
 const lastTouchByTeam = computed(() => {
   return Number(goal.value.lastTouchByTeam)
+})
+const gameEventType = computed<GameEvent_TypeJson>(() => {
+  return possibleGoal.value ? 'POSSIBLE_GOAL' : 'GOAL'
 })
 
 const constructGameEvent = (): GameEventJson => {
@@ -42,7 +46,10 @@ const createGameEvent = () => {
 
 <template>
   <q-list bordered>
-    <q-item-label header>进球</q-item-label>
+    <q-item-label header>
+      <div>{{ gameEventName(gameEventType) }}</div>
+      <div class="text-caption text-grey-7">{{ gameEventType }}</div>
+    </q-item-label>
 
     <TeamItem v-model="goal.byTeam" label="得分方"/>
     <TeamItem v-model="goal.kickingTeam" label="射门方"/>

@@ -21,7 +21,8 @@ const createGameEvent = () => {
 <template>
   <q-list bordered>
     <q-item-label header>
-      {{ gameEventName(gameEvent.type) }}
+      <div>{{ gameEventName(gameEvent.type) }}</div>
+      <div class="text-caption text-grey-7">{{ gameEvent.type }}</div>
     </q-item-label>
 
     <NumberItem v-model="details.time" label="持续时间"/>
