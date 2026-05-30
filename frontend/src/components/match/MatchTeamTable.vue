@@ -40,11 +40,15 @@ const penaltyAttempts = (team: TeamJson) => {
 </script>
 
 <template>
-  <div class="row justify-center q-gutter-sm">
-    <q-list bordered dense v-for="team in teams" :key="team">
-      <q-item-label header>
-        <TeamBadge :team="team"/>
-        {{ teamName(team) }}
+  <div class="row justify-center q-gutter-sm" style="flex-wrap: nowrap;">
+    <q-list bordered dense v-for="team in teams" :key="team" style="flex: 0 1 auto; min-width: 220px; max-width: 220px;">
+      <q-item-label header style="padding: 8px; overflow: hidden;">
+        <div style="display: flex; align-items: center; gap: 8px; width: 100%;">
+          <TeamBadge :team="team" style="flex-shrink: 0;"/>
+          <div style="flex: 1; overflow: hidden; position: relative; min-width: 0;">
+            <span class="marquee-text">{{ teamName(team) }}</span>
+          </div>
+        </div>
       </q-item-label>
 
       <q-item v-ripple>
