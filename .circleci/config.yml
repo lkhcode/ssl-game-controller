@@ -8,7 +8,7 @@ jobs:
   build_node:
     resource_class: medium
     docker:
-      - image: cimg/node:lts@sha256:714b33be00a0fb8aba79cf93f497f093f0394436a7ec68a7c757a11c7c10b63c
+      - image: cimg/node:lts@sha256:0a67b6fa151ceac233d469a5915ca75a4a1c9e3854502ed7cc236f18c3a4f5c3
     steps:
       - checkout
       - run:
@@ -27,7 +27,7 @@ jobs:
   test_go:
     resource_class: medium
     docker:
-      - image: cimg/go:1.26.0@sha256:e82c7727feeec93d6212da83f9ce8a3e2835137c87185543d306fd29bfc032cd
+      - image: cimg/go:1.26.2@sha256:6a7ffeeed99ed9e0d9e8f88f653207abb49781eea2055d61cbdce1a4c77c52ca
     steps:
       - checkout
       - attach_workspace:
@@ -42,7 +42,7 @@ jobs:
   build_go:
     resource_class: large
     docker:
-      - image: cimg/go:1.26.0@sha256:e82c7727feeec93d6212da83f9ce8a3e2835137c87185543d306fd29bfc032cd
+      - image: cimg/go:1.26.2@sha256:6a7ffeeed99ed9e0d9e8f88f653207abb49781eea2055d61cbdce1a4c77c52ca
     steps:
       - checkout
       - attach_workspace:
@@ -68,7 +68,7 @@ jobs:
   publish_gh:
     resource_class: small
     docker:
-      - image: cimg/go:1.26.0@sha256:e82c7727feeec93d6212da83f9ce8a3e2835137c87185543d306fd29bfc032cd
+      - image: cimg/go:1.26.2@sha256:6a7ffeeed99ed9e0d9e8f88f653207abb49781eea2055d61cbdce1a4c77c52ca
     steps:
       - attach_workspace:
           at: .
@@ -80,7 +80,7 @@ jobs:
   build_docker:
     resource_class: small
     docker:
-      - image: cimg/base:2025.12@sha256:32bf8767cd669b9a236863accc928a35517ebfb8438565bd3103bdddf085c481
+      - image: cimg/base:2026.04@sha256:c7693014a5fe7f5c95ac54590b54e2b183995241e082eb20377761916477a3e4
     steps:
       - checkout
       - setup_remote_docker
@@ -96,7 +96,7 @@ jobs:
   publish_docker:
     resource_class: small
     docker:
-      - image: cimg/base:2025.12@sha256:32bf8767cd669b9a236863accc928a35517ebfb8438565bd3103bdddf085c481
+      - image: cimg/base:2026.04@sha256:c7693014a5fe7f5c95ac54590b54e2b183995241e082eb20377761916477a3e4
     steps:
       - checkout
       - setup_remote_docker

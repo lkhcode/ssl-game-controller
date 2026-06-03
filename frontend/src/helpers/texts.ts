@@ -189,7 +189,7 @@ export function continueActionLabel(type: ContinueAction_TypeJson, nextCommand?:
     case 'CHALLENGE_ACCEPT':
       return 'Accept Challenge 接受异议'
     case 'CHALLENGE_REJECT':
-      return 'Reject Challenge 反对异议'
+      return 'Reject Challenge'
     case 'TYPE_UNKNOWN':
       return '无法识别的指令'
   }
