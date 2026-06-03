@@ -37,7 +37,7 @@ const updateValue = (value: string) => {
   <SelectInput
     :options="options"
     :modelValue="model"
-    label="Team name"
+    label="队伍名称"
     @update:model-value="updateValue"
   />
 </template>

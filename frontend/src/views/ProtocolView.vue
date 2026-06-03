@@ -27,9 +27,9 @@ const protocolEntries = computed(() => {
 
 <template>
   <div class="q-ma-sm">
-    <q-checkbox v-model="command" label="Command"/>
-    <q-checkbox v-model="gameEvent" label="Game Event"/>
-    <q-checkbox v-model="other" label="Other"/>
+    <q-checkbox v-model="command" label="指令"/>
+    <q-checkbox v-model="gameEvent" label="比赛事件"/>
+    <q-checkbox v-model="other" label="其他"/>
   </div>
   <ProtocolList :protocol-entries="protocolEntries"/>
 </template>

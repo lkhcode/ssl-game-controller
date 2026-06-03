@@ -36,7 +36,7 @@ function accept() {
 
 <template>
   <q-btn
-    label="Determine side and kickoff"
+    label="确定半场和开球权"
     color="primary"
     icon="home"
     @click="showDialog = true"
@@ -44,7 +44,7 @@ function accept() {
   <q-dialog v-model="showDialog">
     <q-card>
       <q-card-section>
-        <div class="text-h6">Determine team to choose side</div>
+        <div class="text-h6">确定选边队伍</div>
       </q-card-section>
 
       <q-card-section class="q-pt-none">
@@ -61,18 +61,18 @@ function accept() {
       </q-card-actions>
 
       <q-card-section>
-        <div class="text-h6">Let this team choose</div>
+        <div class="text-h6">让该队选择</div>
       </q-card-section>
 
       <q-card-section class="q-pt-none">
         <q-item-section>
           <FieldHalfInput :team="team"/>
         </q-item-section>
-        <q-item-label header>The other team will have first kick off</q-item-label>
+        <q-item-label header>另一队将获得首次次开球权</q-item-label>
       </q-card-section>
 
       <q-card-actions align="right">
-        <q-btn flat label="Accept" color="primary" @click="accept" v-close-popup/>
+        <q-btn flat label="确认" color="primary" @click="accept" v-close-popup/>
       </q-card-actions>
     </q-card>
   </q-dialog>

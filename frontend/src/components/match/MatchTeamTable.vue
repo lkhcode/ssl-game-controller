@@ -40,11 +40,15 @@ const penaltyAttempts = (team: TeamJson) => {
 </script>
 
 <template>
-  <div class="row justify-center q-gutter-sm">
-    <q-list bordered dense v-for="team in teams" :key="team">
-      <q-item-label header>
-        <TeamBadge :team="team"/>
-        {{ teamName(team) }}
+  <div class="row justify-center q-gutter-sm" style="flex-wrap: nowrap;">
+    <q-list bordered dense v-for="team in teams" :key="team" style="flex: 0 1 auto; min-width: 220px; max-width: 220px;">
+      <q-item-label header style="padding: 8px; overflow: hidden;">
+        <div style="display: flex; align-items: center; gap: 8px; width: 100%;">
+          <TeamBadge :team="team" style="flex-shrink: 0;"/>
+          <div style="flex: 1; overflow: hidden; position: relative; min-width: 0;">
+            <span class="marquee-text">{{ teamName(team) }}</span>
+          </div>
+        </div>
       </q-item-label>
 
       <q-item v-ripple>
@@ -71,7 +75,7 @@ const penaltyAttempts = (team: TeamJson) => {
             {{ activeCards(team) }} &rArr; {{ maxBots(team) }}
           </q-item-label>
           <q-item-label caption>
-            Active cards &rArr; max bots
+            生效牌数 &rArr; 最大机器人数
           </q-item-label>
         </q-item-section>
       </q-item>
@@ -82,7 +86,7 @@ const penaltyAttempts = (team: TeamJson) => {
             {{ formatDuration(nextYellowCardDue(team) * 1000) }}
           </q-item-label>
           <q-item-label caption>
-            Next yellow card due
+            下张黄牌到期时间
           </q-item-label>
         </q-item-section>
       </q-item>
@@ -93,7 +97,7 @@ const penaltyAttempts = (team: TeamJson) => {
             {{ penaltyAttempts(team) }}
           </q-item-label>
           <q-item-label caption>
-            Number of penalty attempts
+            尝试点球次数
           </q-item-label>
         </q-item-section>
       </q-item>

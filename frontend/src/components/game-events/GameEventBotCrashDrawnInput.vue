@@ -21,16 +21,17 @@ const createGameEvent = () => {
 <template>
   <q-list bordered>
     <q-item-label header>
-      {{ gameEventName(gameEvent.type) }}
+      <div>{{ gameEventName(gameEvent.type) }}</div>
+      <div class="text-caption text-grey-7">{{ gameEvent.type }}</div>
     </q-item-label>
 
-    <NumberItem v-model="details.botYellow" label="yellow bot"/>
-    <NumberItem v-model="details.botBlue" label="blue bot"/>
-    <NumberItem v-model="details.crashSpeed" label="crash speed"/>
-    <NumberItem v-model="details.speedDiff" label="speed diff"/>
-    <NumberItem v-model="details.crashAngle" label="crash angle"/>
+    <NumberItem v-model="details.botYellow" label="黄方机器人"/>
+    <NumberItem v-model="details.botBlue" label="蓝方机器人"/>
+    <NumberItem v-model="details.crashSpeed" label="碰撞速度"/>
+    <NumberItem v-model="details.speedDiff" label="速度差"/>
+    <NumberItem v-model="details.crashAngle" label="碰撞角度"/>
     <LocationItem v-model="details.location"/>
 
-    <ButtonItem label="Create" @click="createGameEvent"/>
+    <ButtonItem label="创建" @click="createGameEvent"/>
   </q-list>
 </template>

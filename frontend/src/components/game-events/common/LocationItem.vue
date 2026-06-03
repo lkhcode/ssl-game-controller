@@ -35,7 +35,7 @@ const updateY = (y: number | undefined) => {
   <q-item>
     <q-item-section>
       <NumberInput
-        :label="(label || 'location') + ' x (m)'"
+        :label="(label || '坐标') + ' x (m)'"
         :model-value="modelValue?.x"
         @update:model-value="updateX"
       >
@@ -46,7 +46,7 @@ const updateY = (y: number | undefined) => {
     </q-item-section>
     <q-item-section>
       <NumberInput
-        :label="(label || 'location') + ' y (m)'"
+        :label="(label || '坐标') + ' y (m)'"
         :model-value="modelValue?.y"
         @update:model-value="updateY"
       >

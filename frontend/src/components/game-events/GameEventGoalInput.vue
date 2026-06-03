@@ -6,7 +6,8 @@ import NumberItem from "@/components/game-events/common/NumberItem.vue";
 import ToggleItem from "@/components/game-events/common/ToggleItem.vue";
 import TextItem from "@/components/game-events/common/TextItem.vue";
 import ButtonItem from "@/components/game-events/common/ButtonItem.vue";
-import {type GameEvent_GoalJson, type GameEventJson} from "@/proto/state/ssl_gc_game_event_pb";
+import {type GameEvent_GoalJson, type GameEvent_TypeJson, type GameEventJson} from "@/proto/state/ssl_gc_game_event_pb";
+import {gameEventName} from "@/helpers/texts";
 
 const possibleGoal = ref(true)
 const goal = ref<GameEvent_GoalJson>({
@@ -14,6 +15,9 @@ const goal = ref<GameEvent_GoalJson>({
 })
 const lastTouchByTeam = computed(() => {
   return Number(goal.value.lastTouchByTeam)
+})
+const gameEventType = computed<GameEvent_TypeJson>(() => {
+  return possibleGoal.value ? 'POSSIBLE_GOAL' : 'GOAL'
 })
 
 const constructGameEvent = (): GameEventJson => {
@@ -42,20 +46,23 @@ const createGameEvent = () => {
 
 <template>
   <q-list bordered>
-    <q-item-label header>Goal</q-item-label>
+    <q-item-label header>
+      <div>{{ gameEventName(gameEventType) }}</div>
+      <div class="text-caption text-grey-7">{{ gameEventType }}</div>
+    </q-item-label>
 
-    <TeamItem v-model="goal.byTeam" label="by team"/>
-    <TeamItem v-model="goal.kickingTeam" label="kicking team"/>
-    <NumberItem v-model="goal.kickingBot" label="kicking bot"/>
+    <TeamItem v-model="goal.byTeam" label="得分方"/>
+    <TeamItem v-model="goal.kickingTeam" label="射门方"/>
+    <NumberItem v-model="goal.kickingBot" label="射门机器人"/>
     <LocationItem v-model="goal.location"/>
-    <LocationItem v-model="goal.kickLocation" label="kick location"/>
-    <NumberItem v-model="goal.maxBallHeight" label="max ball height (m)"/>
-    <NumberItem v-model="goal.numRobotsByTeam" label="num robots by team"/>
-    <NumberItem v-model="lastTouchByTeam" label="last touch by team (μs)"/>
-    <TextItem v-model="goal.message" label="message"/>
+    <LocationItem v-model="goal.kickLocation" label="射门位置"/>
+    <NumberItem v-model="goal.maxBallHeight" label="射门过程中球的最高高度 (米)"/>
+    <NumberItem v-model="goal.numRobotsByTeam" label="队伍中的机器人数量"/>
+    <NumberItem v-model="lastTouchByTeam" label="最后触球时间 (μs)"/>
+    <TextItem v-model="goal.message" label="备注"/>
 
-    <ToggleItem label="possible goal" v-model="possibleGoal"/>
+    <ToggleItem label="待确认的进球" v-model="possibleGoal"/>
 
-    <ButtonItem label="Create" @click="createGameEvent"/>
+    <ButtonItem label="创建" @click="createGameEvent"/>
   </q-list>
 </template>

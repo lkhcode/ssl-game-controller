@@ -30,7 +30,7 @@ const updateValue = (value: number | undefined) => {
 <template>
   <NumberInput
     :modelValue="model"
-    label="Timeouts left"
+    label="Timeout 剩余次数"
     @update:model-value="updateValue"
   />
 </template>

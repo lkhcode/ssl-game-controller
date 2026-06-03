@@ -24,13 +24,14 @@ const createGameEvent = () => {
 <template>
   <q-list bordered>
     <q-item-label header>
-      {{ gameEventName(gameEvent.type) }}
+      <div>{{ gameEventName(gameEvent.type) }}</div>
+      <div class="text-caption text-grey-7">{{ gameEvent.type }}</div>
     </q-item-label>
 
-    <TeamItem v-model="details.byTeam" label="by team"/>
+    <TeamItem v-model="details.byTeam" label="队伍"/>
     <LocationItem v-model="details.location"/>
-    <NumberItem v-model="details.duration" label="duration"/>
+    <NumberItem v-model="details.duration" label="持续时间"/>
 
-    <ButtonItem label="Create" @click="createGameEvent"/>
+    <ButtonItem label="创建" @click="createGameEvent"/>
   </q-list>
 </template>

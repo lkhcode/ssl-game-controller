@@ -17,7 +17,7 @@ const update = () => {
 
 <template>
   <q-btn
-    label="Switch sides"
+    label="交换半场"
     color="primary"
     icon="sync_alt"
     @click="update"

@@ -28,7 +28,7 @@ const onChange = (newStage: Referee_StageJson) => {
 
 <template>
   <SelectInput
-    label="Stage"
+    label="阶段"
     style="min-width: 130px"
     :modelValue="model"
     :options="options"

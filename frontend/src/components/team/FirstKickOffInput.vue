@@ -27,7 +27,7 @@ const updateValue = (value: boolean) => {
 <template>
   <ToggleInput
     :modelValue="model"
-    label="First kick-off"
+    label="首次开球权"
     @update:model-value="updateValue"
   />
 </template>
